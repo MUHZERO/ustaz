@@ -8,6 +8,9 @@ abstract final class Validators {
     return _egyptianPhone.hasMatch(value.trim()) ? null : 'validation.phone'.tr;
   }
 
+  static String? optionalPhone(String? value) =>
+      value == null || value.trim().isEmpty ? null : phone(value);
+
   static String? password(String? value) {
     if (value == null || value.isEmpty) return 'validation.required'.tr;
     return value.length >= 8 ? null : 'validation.password'.tr;

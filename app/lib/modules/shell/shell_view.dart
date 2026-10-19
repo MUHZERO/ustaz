@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../home/home_view.dart';
 import '../results/results_view.dart';
+import '../notifications/notifications_view.dart';
+import '../profile/profile_view.dart';
 import 'shell_controller.dart';
 
 class ShellView extends GetView<ShellController> {
@@ -14,8 +16,8 @@ class ShellView extends GetView<ShellController> {
       body: switch (controller.selectedIndex.value) {
         0 => const HomeView(),
         1 => const ResultsView(),
-        2 => _Placeholder(label: 'shell.notifications'.tr),
-        _ => _Placeholder(label: 'shell.profile'.tr),
+        2 => const NotificationsView(),
+        _ => const ProfileView(),
       },
       bottomNavigationBar: NavigationBar(
         selectedIndex: controller.selectedIndex.value,
@@ -41,11 +43,4 @@ class ShellView extends GetView<ShellController> {
       ),
     ),
   );
-}
-
-class _Placeholder extends StatelessWidget {
-  const _Placeholder({required this.label});
-  final String label;
-  @override
-  Widget build(BuildContext context) => Center(child: Text(label));
 }

@@ -8,6 +8,7 @@ import 'core/i18n/translations.dart';
 import 'core/routes/app_pages.dart';
 import 'core/routes/app_routes.dart';
 import 'core/theme/app_theme.dart';
+import 'services/settings_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,11 +24,11 @@ class UstazApp extends StatelessWidget {
   Widget build(BuildContext context) => GetMaterialApp(
     title: AppConfig.appName,
     translations: AppTranslations(),
-    locale: const Locale('ar'),
+    locale: Get.find<SettingsService>().locale,
     fallbackLocale: const Locale('ar'),
     theme: AppTheme.light,
     darkTheme: AppTheme.dark,
-    themeMode: ThemeMode.system,
+    themeMode: Get.find<SettingsService>().themeMode,
     initialRoute: AppRoutes.splash,
     getPages: AppPages.routes,
   );
