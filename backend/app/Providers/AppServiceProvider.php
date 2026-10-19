@@ -9,6 +9,9 @@ use App\Models\Lecture;
 use App\Models\Paper;
 use App\Models\Segment;
 use App\Observers\ContentObserver;
+use App\Services\Push\FcmPushSender;
+use App\Services\Push\LogPushSender;
+use App\Services\Push\PushSender;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -22,7 +25,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(PushSender::class, fn () => config('services.push.driver') === 'fcm'
+            ? new FcmPushSender(json_decode((string) file_get_contents((string) config('services.push.firebase_credentials')), true))
+            : new LogPushSender);
     }
 
     /**

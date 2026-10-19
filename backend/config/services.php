@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'push' => [
+        'driver' => env('PUSH_DRIVER', 'log'),
+        'firebase_credentials' => env('FIREBASE_CREDENTIALS'),
+    ],
+
 ];

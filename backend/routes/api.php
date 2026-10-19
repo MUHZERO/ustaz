@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\V1\CodeController;
 use App\Http\Controllers\Api\V1\HomeController;
 use App\Http\Controllers\Api\V1\LectureController;
 use App\Http\Controllers\Api\V1\LevelController;
+use App\Http\Controllers\Api\V1\NotificationController;
 use App\Http\Controllers\Api\V1\ProfileController;
 use App\Http\Controllers\Api\V1\ResultController;
 use App\Http\Controllers\Api\V1\SubscriptionController;
@@ -44,6 +45,8 @@ Route::prefix('v1')->group(function () {
         Route::post('attempts/{attempt}/review-request', [AttemptController::class, 'requestReview'])->whereNumber('attempt');
         Route::get('me/results', [ResultController::class, 'index']);
         Route::get('me/homework', [ResultController::class, 'homework']);
+        Route::get('notifications', [NotificationController::class, 'index']);
+        Route::post('notifications/{notification}/read', [NotificationController::class, 'read'])->whereUuid('notification');
     });
 });
 

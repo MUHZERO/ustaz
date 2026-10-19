@@ -2,12 +2,12 @@
 
 namespace App\Notifications;
 
+use App\Notifications\Channels\PushChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 
 /**
- * Stored in the database for the in-app inbox. Push delivery is added by the
- * notifications task through the same class.
+ * Stored for the in-app inbox and pushed to the student's active device.
  */
 class StudentNotification extends Notification
 {
@@ -27,7 +27,7 @@ class StudentNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['database'];
+        return ['database', PushChannel::class];
     }
 
     /**
