@@ -68,6 +68,16 @@ it('starting twice resumes same attempt', function () {
     expect($second)->toBe($first)->and(Attempt::count())->toBe(1);
 });
 
+it('attempt payload carries the server clock for the countdown', function () {
+    Queue::fake();
+    $this->travelTo(now()->startOfSecond());
+    $exam = openExam($this->category);
+
+    attemptApi()->postJson("/api/v1/assessments/{$exam->id}/attempts")
+        ->assertCreated()
+        ->assertJsonPath('data.server_time', now()->toIso8601String());
+});
+
 it('attempt payload has questions without answers', function () {
     Queue::fake();
     $exam = openExam($this->category);
