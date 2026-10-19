@@ -13,6 +13,8 @@ return new class extends Migration
             $table->foreignId('activation_code_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamp('created_at')->nullable();
+
+            $table->unique(['activation_code_id', 'user_id']);
         });
     }
 

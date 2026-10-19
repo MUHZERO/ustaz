@@ -3,10 +3,12 @@
 use App\Http\Controllers\Api\V1\AnnouncementController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\CategoryController;
+use App\Http\Controllers\Api\V1\CodeController;
 use App\Http\Controllers\Api\V1\HomeController;
 use App\Http\Controllers\Api\V1\LectureController;
 use App\Http\Controllers\Api\V1\LevelController;
 use App\Http\Controllers\Api\V1\ProfileController;
+use App\Http\Controllers\Api\V1\SubscriptionController;
 use App\Http\Controllers\FileController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +31,8 @@ Route::prefix('v1')->group(function () {
             ->whereNumber('lecture')
             ->middleware('throttle:progress');
         Route::get('announcements', [AnnouncementController::class, '__invoke']);
+        Route::post('codes/redeem', [CodeController::class, 'redeem'])->middleware('throttle:redeem');
+        Route::get('subscriptions', [SubscriptionController::class, 'index']);
     });
 });
 
