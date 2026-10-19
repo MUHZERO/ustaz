@@ -23,6 +23,17 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        // Screen capture stays blocked unless a debug run asks for it, e.g. to take
+        // store screenshots: flutter run -P allowScreenCapture=true
+        buildConfigField(
+            "boolean",
+            "ALLOW_SCREEN_CAPTURE",
+            (project.findProperty("allowScreenCapture") == "true").toString(),
+        )
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
@@ -30,6 +41,7 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.getByName("debug")
+            buildConfigField("boolean", "ALLOW_SCREEN_CAPTURE", "false")
         }
     }
 }
