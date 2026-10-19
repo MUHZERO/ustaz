@@ -43,8 +43,13 @@ class CategoryView extends GetView<CategoryController> {
                   scrollDirection: Axis.horizontal,
                   itemCount: data.lectures.length,
                   separatorBuilder: (_, _) => const SizedBox(width: 12),
-                  itemBuilder: (_, index) =>
-                      LectureCardTile(lecture: data.lectures[index]),
+                  itemBuilder: (_, index) => LectureCardTile(
+                    lecture: data.lectures[index],
+                    onTap: () => Get.toNamed(
+                      AppRoutes.lecture,
+                      arguments: data.lectures[index].id,
+                    ),
+                  ),
                 ),
               ),
             ],

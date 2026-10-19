@@ -37,6 +37,8 @@ const ar = <String, String>{
   'category.exam_state_upcoming': 'قادم',
   'category.exam_state_open': 'مفتوح',
   'category.exam_state_closed': 'مغلق',
+  'lecture.locked_title': 'أكمل الاختبار أولاً',
+  'lecture.locked_message': 'اجتز الاختبار المطلوب لفتح هذا المقطع.',
   'shell.home': 'الرئيسية',
   'shell.results': 'النتائج',
   'shell.notifications': 'الإشعارات',
