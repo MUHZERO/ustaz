@@ -65,4 +65,11 @@ const ar = <String, String>{
   'assessment.review_status_accepted': 'تم قبول طلب المراجعة',
   'assessment.review_status_rejected': 'تم رفض طلب المراجعة',
   'assessment.unanswered': 'لم تتم الإجابة',
+  'assessment.kind_quiz': 'اختبار قصير',
+  'assessment.kind_homework': 'واجب',
+  'assessment.kind_exam': 'امتحان',
+  'homework.title': 'الواجبات',
+  'homework.notStarted': 'لم يبدأ',
+  'homework.inProgress': 'قيد الحل',
+  'homework.done': 'تم التسليم',
 };

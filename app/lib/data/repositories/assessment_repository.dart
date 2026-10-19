@@ -1,5 +1,7 @@
 import '../../core/network/api_client.dart';
 import '../models/attempt.dart';
+import '../models/homework.dart';
+import '../models/paged.dart';
 import '../models/result.dart';
 import '../models/review_item.dart';
 
@@ -32,4 +34,12 @@ class AssessmentRepository {
       _api.post('/attempts/$attemptId/review-request', {
         'note': note,
       }, AssessmentResult.fromJson);
+
+  Future<Paged<ResultEntry>> myResults(int page) =>
+      _api.getPage('/me/results', ResultEntry.fromJson, page: page);
+
+  Future<List<Homework>> myHomework() => _api.get(
+    '/me/homework',
+    (json) => (json as List).map(Homework.fromJson).toList(growable: false),
+  );
 }

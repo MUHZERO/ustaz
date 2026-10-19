@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import '../../data/models/paged.dart';
 import 'api_exception.dart';
 import 'device_id_store.dart';
 import 'token_store.dart';
@@ -21,6 +22,19 @@ class ApiClient {
     T Function(Object? json) parse, {
     Map<String, String>? query,
   }) => _request('GET', path, parse, query: query);
+
+  /// One page of a paginated list; keeps the `meta` the other calls drop.
+  Future<Paged<T>> getPage<T>(
+    String path,
+    T Function(Object? json) parseItem, {
+    required int page,
+  }) => _request(
+    'GET',
+    path,
+    (json) => Paged.fromJson(json, parseItem),
+    query: {'page': '$page'},
+    envelope: true,
+  );
   Future<T> post<T>(
     String path,
     Object? body,
@@ -45,6 +59,7 @@ class ApiClient {
     T Function(Object? json) parse, {
     Object? body,
     Map<String, String>? query,
+    bool envelope = false,
   }) async {
     final token = _tokens.token;
     final request = http.Request(method, _uri(path, query))
@@ -72,6 +87,7 @@ class ApiClient {
     }
     final json = _decode(response.body);
     if (response.statusCode >= 200 && response.statusCode < 300) {
+      if (envelope) return parse(json);
       return parse(json is Map<String, dynamic> ? json['data'] : null);
     }
     final exception = _exception(response.statusCode, json);

@@ -66,4 +66,11 @@ const en = <String, String>{
   'assessment.review_status_accepted': 'Review request accepted',
   'assessment.review_status_rejected': 'Review request rejected',
   'assessment.unanswered': 'Not answered',
+  'assessment.kind_quiz': 'Quiz',
+  'assessment.kind_homework': 'Homework',
+  'assessment.kind_exam': 'Exam',
+  'homework.title': 'Homework',
+  'homework.notStarted': 'Not started',
+  'homework.inProgress': 'In progress',
+  'homework.done': 'Submitted',
 };

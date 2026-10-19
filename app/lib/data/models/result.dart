@@ -1,3 +1,5 @@
+import 'attempt.dart';
+
 enum ReviewRequestStatus { pending, accepted, rejected }
 
 class ReviewRequest {
@@ -51,6 +53,28 @@ class AssessmentResult {
       reviewRequest: value['review_request'] == null
           ? null
           : ReviewRequest.fromJson(value['review_request']),
+    );
+  }
+}
+
+/// A row of `/me/results`: a result with its assessment title and kind.
+class ResultEntry {
+  const ResultEntry({
+    required this.title,
+    required this.kind,
+    required this.result,
+  });
+
+  final String title;
+  final AssessmentKind kind;
+  final AssessmentResult result;
+
+  factory ResultEntry.fromJson(Object? json) {
+    final value = json as Map<String, dynamic>;
+    return ResultEntry(
+      title: value['title'] as String,
+      kind: AssessmentKind.values.byName(value['kind'] as String),
+      result: AssessmentResult.fromJson(value),
     );
   }
 }

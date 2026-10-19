@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../home/home_view.dart';
+import '../results/results_view.dart';
 import 'shell_controller.dart';
 
 class ShellView extends GetView<ShellController> {
@@ -12,7 +13,7 @@ class ShellView extends GetView<ShellController> {
       appBar: AppBar(title: Text('app_name'.tr)),
       body: switch (controller.selectedIndex.value) {
         0 => const HomeView(),
-        1 => _Placeholder(label: 'shell.results'.tr),
+        1 => const ResultsView(),
         2 => _Placeholder(label: 'shell.notifications'.tr),
         _ => _Placeholder(label: 'shell.profile'.tr),
       },
