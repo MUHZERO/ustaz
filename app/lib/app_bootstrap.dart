@@ -9,9 +9,11 @@ import 'core/network/token_store.dart';
 import 'data/repositories/access_repository.dart';
 import 'data/repositories/auth_repository.dart';
 import 'data/repositories/content_repository.dart';
+import 'data/repositories/notification_repository.dart';
 import 'data/repositories/progress_repository.dart';
 import 'core/security/screen_capture_guard.dart';
 import 'services/auth_service.dart';
+import 'services/push_service.dart';
 import 'services/settings_service.dart';
 
 void bootstrapDependencies() {
@@ -27,6 +29,8 @@ void bootstrapDependencies() {
   Get.put(ProgressRepository(Get.find()), permanent: true);
   Get.put(AccessRepository(Get.find()), permanent: true);
   Get.put(SettingsService(storage), permanent: true);
+  Get.put(NotificationRepository(Get.find()), permanent: true);
+  Get.put(PushService(Get.find()), permanent: true);
   Get.put(ScreenCaptureGuard(), permanent: true);
   Get.put(AuthService(Get.find(), Get.find()), permanent: true);
 }

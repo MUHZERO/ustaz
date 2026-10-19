@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import '../home/home_binding.dart';
+import '../notifications/notifications_binding.dart';
 import '../profile/profile_binding.dart';
 import 'shell_controller.dart';
 
@@ -8,6 +9,7 @@ class ShellBinding extends Bindings {
   void dependencies() {
     HomeBinding().dependencies();
     ProfileBinding().dependencies();
-    Get.lazyPut(ShellController.new);
+    NotificationsBinding().dependencies();
+    Get.lazyPut(() => ShellController(Get.find()));
   }
 }

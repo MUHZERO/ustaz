@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'app_routes.dart';
 import '../../modules/auth/device_pending/device_pending_binding.dart';
@@ -10,6 +11,8 @@ import '../../modules/category/category_binding.dart';
 import '../../modules/category/category_view.dart';
 import '../../modules/lecture/lecture_binding.dart';
 import '../../modules/lecture/lecture_view.dart';
+import '../../modules/notifications/notifications_binding.dart';
+import '../../modules/notifications/notifications_view.dart';
 import '../../modules/player/player_binding.dart';
 import '../../modules/player/player_view.dart';
 import '../../modules/profile/edit/profile_edit_binding.dart';
@@ -69,6 +72,14 @@ class AppPages {
       name: AppRoutes.profileEdit,
       page: ProfileEditView.new,
       binding: ProfileEditBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.notifications,
+      page: () => Scaffold(
+        appBar: AppBar(title: Text('shell.notifications'.tr)),
+        body: const NotificationsView(),
+      ),
+      binding: NotificationsBinding(),
     ),
   ];
 }

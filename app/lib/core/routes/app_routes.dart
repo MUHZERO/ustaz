@@ -9,6 +9,7 @@ abstract final class AppRoutes {
   static const player = '/player';
   static const redeem = '/redeem';
   static const profileEdit = '/profile/edit';
+  static const notifications = '/notifications';
   static const pdf = '/pdf';
   static const assessment = '/assessment';
 }
