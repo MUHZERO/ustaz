@@ -11,4 +11,6 @@ return [
     'code_invalid' => 'This code is not valid.',
     'code_expired' => 'This code has expired.',
     'code_used_up' => 'This code has already been used.',
+    'exam_not_open' => 'This exam is not open now.',
+    'already_submitted' => 'This attempt is already submitted.',
 ];

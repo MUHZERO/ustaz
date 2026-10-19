@@ -7,11 +7,14 @@ use App\Jobs\AutoSubmitAttempt;
 use App\Models\Assessment;
 use App\Models\Attempt;
 use App\Models\Category;
+use App\Models\Lecture;
 use App\Models\Level;
 use App\Models\Question;
 use App\Models\Subscription;
 use App\Models\User;
+use App\Services\AttemptService;
 use App\Services\DeviceService;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Queue;
 
@@ -102,7 +105,7 @@ it('deadline is capped by closes_at', function () {
 
     $deadline = attemptApi()->postJson("/api/v1/assessments/{$exam->id}/attempts")->json('data.deadline_at');
 
-    expect(\Carbon\Carbon::parse($deadline)->diffInMinutes(now()->addMinutes(10), true))->toBeLessThan(1);
+    expect(Carbon::parse($deadline)->diffInMinutes(now()->addMinutes(10), true))->toBeLessThan(1);
     Queue::assertPushed(AutoSubmitAttempt::class);
 });
 
@@ -161,7 +164,7 @@ it('auto submit job scores saved answers', function () {
     attemptApi()->putJson("/api/v1/attempts/{$attemptId}/answers", ['question_id' => $q1, 'option_id' => $right1]);
 
     $this->travel(31)->minutes();
-    (new AutoSubmitAttempt($attemptId))->handle(app(\App\Services\AttemptService::class));
+    (new AutoSubmitAttempt($attemptId))->handle(app(AttemptService::class));
 
     $attempt = Attempt::find($attemptId);
     expect($attempt->status)->toBe(AttemptStatus::Submitted)->and((float) $attempt->score)->toBe(2.0);
@@ -269,7 +272,7 @@ it('my results paginate with title and kind', function () {
 });
 
 it('homework list shows status per assessment', function () {
-    $lecture = \App\Models\Lecture::factory()->for($this->category)->create(['published_at' => now()]);
+    $lecture = Lecture::factory()->for($this->category)->create(['published_at' => now()]);
     $done = makeAssessment($this->category, ['kind' => AssessmentKind::Homework, 'lecture_id' => $lecture->id, 'category_id' => null, 'title' => 'واجب 1']);
     makeAssessment($this->category, ['kind' => AssessmentKind::Homework, 'lecture_id' => $lecture->id, 'category_id' => null, 'title' => 'واجب 2']);
     $attempt = attemptApi()->postJson("/api/v1/assessments/{$done->id}/attempts")->json('data.id');
