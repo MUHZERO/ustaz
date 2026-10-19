@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateProfileRequest extends FormRequest
@@ -18,7 +19,7 @@ class UpdateProfileRequest extends FormRequest
     {
         return [
             'name' => ['sometimes', 'required', 'string', 'max:255'],
-            'parent_phone' => ['sometimes', 'nullable', 'regex:/^01[0125][0-9]{8}$/'],
+            'parent_phone' => ['sometimes', 'nullable', 'regex:'.User::PHONE_PATTERN],
         ];
     }
 }

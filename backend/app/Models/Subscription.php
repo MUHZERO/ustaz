@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Services\CacheService;
 use Database\Factories\SubscriptionFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -29,6 +31,13 @@ class Subscription extends Model
     protected function casts(): array
     {
         return ['starts_at' => 'datetime', 'ends_at' => 'datetime'];
+    }
+
+    /** Lifetime grants (null end) and grants that have not ended yet. */
+    #[Scope]
+    protected function active(Builder $query): void
+    {
+        $query->where(fn (Builder $active) => $active->whereNull('ends_at')->orWhere('ends_at', '>', now()));
     }
 
     public function user(): BelongsTo

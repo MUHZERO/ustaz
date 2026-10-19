@@ -122,7 +122,7 @@ final class AccessService
     private function computeSubscriptions(User $user): array
     {
         $subscriptions = $user->subscriptions()
-            ->where(fn ($query) => $query->whereNull('ends_at')->orWhere('ends_at', '>', now()))
+            ->active()
             ->get(['category_id', 'ends_at']);
 
         $ends = $subscriptions

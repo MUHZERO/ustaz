@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('code')->unique();
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
-            $table->unsignedBigInteger('batch_id');
+            $table->uuid('batch_id')->index();
             $table->timestamp('ends_at')->nullable();
             $table->timestamp('expires_at')->nullable();
             $table->unsignedInteger('max_uses')->default(1);

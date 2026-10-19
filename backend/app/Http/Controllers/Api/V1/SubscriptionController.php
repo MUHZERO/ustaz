@@ -13,7 +13,7 @@ final class SubscriptionController extends Controller
     {
         return SubscriptionResource::collection(
             $request->user()->subscriptions()
-                ->where(fn ($query) => $query->whereNull('ends_at')->orWhere('ends_at', '>', now()))
+                ->active()
                 ->with('category:id,name')
                 ->orderBy('category_id')
                 ->get(),

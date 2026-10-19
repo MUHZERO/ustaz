@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterRequest extends FormRequest
@@ -16,7 +17,7 @@ class RegisterRequest extends FormRequest
      */
     public function rules(): array
     {
-        $phone = ['regex:/^01[0125][0-9]{8}$/'];
+        $phone = ['regex:'.User::PHONE_PATTERN];
 
         return [
             'name' => ['required', 'string', 'max:255'],

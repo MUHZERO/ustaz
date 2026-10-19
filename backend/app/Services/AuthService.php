@@ -65,4 +65,21 @@ class AuthService
             'user' => $user->load('level'),
         ];
     }
+
+    /** Only staff reset passwords; every signed-in session of the student ends. */
+    public function resetPassword(User $student, string $password): void
+    {
+        $student->update(['password' => $password]);
+        $student->tokens()->delete();
+    }
+
+    /** Blocking also signs the student out; unblocking lets them log in again. */
+    public function toggleBlock(User $student): void
+    {
+        $student->update(['blocked_at' => $student->blocked_at ? null : now()]);
+
+        if ($student->blocked_at) {
+            $student->tokens()->delete();
+        }
+    }
 }

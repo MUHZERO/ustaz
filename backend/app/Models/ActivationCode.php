@@ -23,7 +23,6 @@ class ActivationCode extends Model
         return [
             'ends_at' => 'datetime',
             'expires_at' => 'datetime',
-            'batch_id' => 'integer',
             'max_uses' => 'integer',
             'uses_count' => 'integer',
         ];

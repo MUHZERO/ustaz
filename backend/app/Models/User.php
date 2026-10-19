@@ -25,6 +25,9 @@ class User extends Authenticatable implements FilamentUser
     /** @use HasFactory<UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
 
+    /** Egyptian mobile number: 010, 011, 012 or 015 followed by eight digits. */
+    public const PHONE_PATTERN = '/^01[0125][0-9]{8}$/';
+
     /**
      * Get the attributes that should be cast.
      *

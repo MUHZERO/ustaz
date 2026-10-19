@@ -26,8 +26,6 @@ final class NotificationAudience
     /** @return Builder<User> */
     public static function category(int $categoryId): Builder
     {
-        return self::all()->whereHas('subscriptions', fn (Builder $query) => $query
-            ->where('category_id', $categoryId)
-            ->where(fn (Builder $active) => $active->whereNull('ends_at')->orWhere('ends_at', '>', now())));
+        return self::all()->whereHas('subscriptions', fn (Builder $query) => $query->active()->where('category_id', $categoryId));
     }
 }

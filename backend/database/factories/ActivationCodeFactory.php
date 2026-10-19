@@ -19,7 +19,7 @@ class ActivationCodeFactory extends Factory
         return [
             'code' => $this->generateCode(),
             'category_id' => Category::factory(),
-            'batch_id' => fake()->numberBetween(1, 1000),
+            'batch_id' => fake()->uuid(),
             'ends_at' => null,
             'expires_at' => null,
             'max_uses' => 1,
