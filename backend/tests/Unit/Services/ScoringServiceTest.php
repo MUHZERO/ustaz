@@ -17,8 +17,6 @@ function answer(Attempt $attempt, ?int $chosen, int $correct, int $mark): void
 
 it('score sums marks of correct answers', function () {
     $attempt = Attempt::factory()->create();
-    answer($attempt, null, 1, 0);
-    $attempt->answers()->delete();
     answer($attempt, 11, 11, 2);
     answer($attempt, 12, 13, 3);
     answer($attempt, 14, 14, 1);

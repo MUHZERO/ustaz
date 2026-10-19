@@ -13,7 +13,8 @@ return new class extends Migration
             $table->foreignId('attempt_id')->constrained()->cascadeOnDelete();
             $table->foreignId('question_id')->constrained()->cascadeOnDelete();
             $table->json('snapshot');
-            $table->foreignId('chosen_option_id')->nullable()->constrained('question_options')->nullOnDelete();
+            // Not a foreign key: answers point into the question snapshot, which outlives edits to the bank.
+            $table->unsignedBigInteger('chosen_option_id')->nullable();
             $table->boolean('is_correct')->nullable();
             $table->timestamps();
         });
