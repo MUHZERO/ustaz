@@ -55,6 +55,7 @@ class LectureController extends BaseController {
         await Get.toNamed(
           AppRoutes.player,
           arguments: {
+            'lectureId': lectureId,
             'segment': segment,
             'studentName': student?.name ?? '',
             'studentPhone': student?.phone ?? '',

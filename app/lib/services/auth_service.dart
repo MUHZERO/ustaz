@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../core/network/api_client.dart';
 import '../core/network/token_store.dart';
 import '../core/routes/app_routes.dart';
+import '../data/models/student.dart';
 
 class AuthService extends GetxService {
   AuthService(this._api, this._tokens);
@@ -10,6 +11,11 @@ class AuthService extends GetxService {
   final TokenStore _tokens;
   StreamSubscription<String?>? _subscription;
   bool _routing = false;
+  final current = Rxn<Student>();
+
+  void setCurrent(Student student) => current.value = student;
+
+  void clearCurrent() => current.value = null;
 
   @override
   void onInit() {
@@ -18,6 +24,7 @@ class AuthService extends GetxService {
       if (_routing) return;
       _routing = true;
       await _tokens.clear();
+      clearCurrent();
       Get.offAllNamed(AppRoutes.login);
       _routing = false;
     });

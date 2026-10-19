@@ -4,6 +4,7 @@ import '../../../core/base/base_controller.dart';
 import '../../../core/network/api_exception.dart';
 import '../../../core/routes/app_routes.dart';
 import '../../../data/repositories/auth_repository.dart';
+import '../../../services/auth_service.dart';
 
 class LoginController extends BaseController {
   LoginController(this._repository);
@@ -16,7 +17,11 @@ class LoginController extends BaseController {
     if (!(formKey.currentState?.validate() ?? false)) return;
     await run(() async {
       try {
-        await _repository.login(phone.text.trim(), password.text);
+        final student = await _repository.login(
+          phone.text.trim(),
+          password.text,
+        );
+        Get.find<AuthService>().setCurrent(student);
         Get.offAllNamed(AppRoutes.home);
       } on ApiException catch (error) {
         if (error.code == 'device_pending') {

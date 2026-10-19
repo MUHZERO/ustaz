@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import '../../core/network/token_store.dart';
 import '../../core/routes/app_routes.dart';
 import '../../data/repositories/auth_repository.dart';
+import '../../services/auth_service.dart';
 
 class SplashController extends GetxController {
   SplashController(this._tokens, this._repository);
@@ -20,7 +21,7 @@ class SplashController extends GetxController {
       return;
     }
     try {
-      await _repository.me();
+      Get.find<AuthService>().setCurrent(await _repository.me());
       Get.offAllNamed(AppRoutes.home);
     } catch (_) {
       await _tokens.clear();

@@ -10,6 +10,8 @@ import '../../modules/category/category_binding.dart';
 import '../../modules/category/category_view.dart';
 import '../../modules/lecture/lecture_binding.dart';
 import '../../modules/lecture/lecture_view.dart';
+import '../../modules/player/player_binding.dart';
+import '../../modules/player/player_view.dart';
 import '../../modules/splash/splash_binding.dart';
 import '../../modules/splash/splash_view.dart';
 import '../../modules/shell/shell_binding.dart';
@@ -48,6 +50,11 @@ class AppPages {
       name: AppRoutes.lecture,
       page: LectureView.new,
       binding: LectureBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.player,
+      page: PlayerView.new,
+      binding: PlayerBinding(),
     ),
   ];
 }

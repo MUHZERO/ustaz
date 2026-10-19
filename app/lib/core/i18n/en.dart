@@ -43,4 +43,5 @@ const en = <String, String>{
   'shell.results': 'Results',
   'shell.notifications': 'Notifications',
   'shell.profile': 'Profile',
+  'player.title': 'Video',
 };

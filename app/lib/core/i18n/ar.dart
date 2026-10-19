@@ -43,4 +43,5 @@ const ar = <String, String>{
   'shell.results': 'النتائج',
   'shell.notifications': 'الإشعارات',
   'shell.profile': 'الملف الشخصي',
+  'player.title': 'الفيديو',
 };
