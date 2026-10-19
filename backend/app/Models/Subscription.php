@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\CacheService;
 use Database\Factories\SubscriptionFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,6 +14,14 @@ class Subscription extends Model
 {
     /** @use HasFactory<SubscriptionFactory> */
     use HasFactory;
+
+    protected static function booted(): void
+    {
+        $flush = fn (Subscription $subscription) => app(CacheService::class)->flush(["student:{$subscription->user_id}"]);
+
+        static::saved($flush);
+        static::deleted($flush);
+    }
 
     /**
      * @return array<string, string>

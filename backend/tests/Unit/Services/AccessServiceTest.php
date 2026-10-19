@@ -13,6 +13,7 @@ use App\Models\Subscription;
 use App\Models\User;
 use App\Services\AccessService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 
 uses(RefreshDatabase::class);
 
@@ -120,8 +121,8 @@ it('locked segments use a fixed number of queries', function () {
     ['lecture' => $lecture] = lectureWithGate($this->category);
     $lecture = Lecture::with('segments', 'category')->find($lecture->id);
 
-    \Illuminate\Support\Facades\DB::enableQueryLog();
+    DB::enableQueryLog();
     $this->access->lockedSegmentIds($this->student, $lecture);
 
-    expect(count(\Illuminate\Support\Facades\DB::getQueryLog()))->toBeLessThanOrEqual(2);
+    expect(count(DB::getQueryLog()))->toBeLessThanOrEqual(2);
 });
