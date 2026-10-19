@@ -291,6 +291,7 @@ it('homework list shows status per assessment', function () {
     $rows = collect(attemptApi()->getJson('/api/v1/me/homework')->assertOk()->json('data'))->keyBy('title');
 
     expect($rows['واجب 1']['attempt']['status'])->toBe('submitted')
+        ->and($rows['واجب 1']['attempt']['id'])->toBe($attempt)
         ->and($rows['واجب 2']['attempt'])->toBeNull()
         ->and($rows['واجب 1']['lecture_id'])->toBe($lecture->id);
 });
