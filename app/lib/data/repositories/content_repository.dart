@@ -3,6 +3,7 @@ import '../models/announcement.dart';
 import '../models/category.dart';
 import '../models/exam_card.dart';
 import '../models/lecture_card.dart';
+import '../models/lecture.dart';
 import '../models/paper.dart';
 
 class HomeData {
@@ -44,6 +45,9 @@ class ContentRepository {
 
   Future<CategoryDetail> category(int id) =>
       _api.get('/categories/$id', CategoryDetail.fromJson);
+
+  Future<Lecture> lecture(int id) =>
+      _api.get('/lectures/$id', Lecture.fromJson);
 }
 
 class CategoryDetail {

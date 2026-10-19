@@ -37,8 +37,11 @@ const en = <String, String>{
   'category.exam_state_upcoming': 'Upcoming',
   'category.exam_state_open': 'Open',
   'category.exam_state_closed': 'Closed',
+  'lecture.locked_title': 'Complete the quiz first',
+  'lecture.locked_message': 'Pass the required quiz to unlock this segment.',
   'shell.home': 'Home',
   'shell.results': 'Results',
   'shell.notifications': 'Notifications',
   'shell.profile': 'Profile',
+  'player.title': 'Video',
 };

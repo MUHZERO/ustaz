@@ -4,6 +4,7 @@ import '../../../core/base/base_controller.dart';
 import '../../../core/routes/app_routes.dart';
 import '../../../data/models/level.dart';
 import '../../../data/repositories/auth_repository.dart';
+import '../../../services/auth_service.dart';
 
 class RegisterController extends BaseController {
   RegisterController(this._repository);
@@ -34,7 +35,7 @@ class RegisterController extends BaseController {
       return;
     }
     await run(() async {
-      await _repository.register(
+      final student = await _repository.register(
         RegisterForm(
           name: name.text.trim(),
           phone: phone.text.trim(),
@@ -44,6 +45,7 @@ class RegisterController extends BaseController {
           levelId: selectedLevelId.value!,
         ),
       );
+      Get.find<AuthService>().setCurrent(student);
       Get.offAllNamed(AppRoutes.home);
     });
   }
