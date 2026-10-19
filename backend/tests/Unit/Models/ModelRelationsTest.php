@@ -19,7 +19,9 @@ use App\Models\Segment;
 use App\Models\Subscription;
 use App\Models\User;
 use App\Models\WatchProgress;
+use Carbon\CarbonInterface;
 use Illuminate\Database\LazyLoadingViolationException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -57,11 +59,12 @@ it('builds the full content tree with factories', function () {
 });
 
 it('throws on lazy loading in tests', function () {
-    ['lecture' => $lecture] = contentTree();
+    ['category' => $category] = contentTree();
+    Lecture::factory()->for($category)->create();
 
-    $fresh = Lecture::query()->find($lecture->id);
+    $lectures = Lecture::query()->get();
 
-    expect(fn () => $fresh->segments)->toThrow(LazyLoadingViolationException::class);
+    expect(fn () => $lectures->first()->segments)->toThrow(LazyLoadingViolationException::class);
 });
 
 it('casts enums, dates and json on student records', function () {
@@ -80,7 +83,7 @@ it('casts enums, dates and json on student records', function () {
 
     expect($student->role)->toBe(UserRole::Student)
         ->and($subscription->ends_at)->toBeNull()
-        ->and($subscription->starts_at)->toBeInstanceOf(\Carbon\CarbonInterface::class)
+        ->and($subscription->starts_at)->toBeInstanceOf(CarbonInterface::class)
         ->and($device->status)->toBe(DeviceStatus::Active)
         ->and($attempt->status)->toBe(AttemptStatus::InProgress)
         ->and($answer->snapshot['correct_option_id'])->toBe(1)
@@ -96,7 +99,7 @@ it('keeps one subscription per student and category', function () {
     Subscription::factory()->for($student)->for($category)->create();
 
     expect(fn () => Subscription::factory()->for($student)->for($category)->create())
-        ->toThrow(\Illuminate\Database\QueryException::class);
+        ->toThrow(QueryException::class);
 });
 
 it('keeps one watch progress row per student and segment', function () {
@@ -104,5 +107,5 @@ it('keeps one watch progress row per student and segment', function () {
     $progress = WatchProgress::factory()->for($student)->create();
 
     expect(fn () => WatchProgress::factory()->for($student)->create(['segment_id' => $progress->segment_id]))
-        ->toThrow(\Illuminate\Database\QueryException::class);
+        ->toThrow(QueryException::class);
 });

@@ -47,6 +47,7 @@ it('flush clears keys of the given tag only', function () {
 it('works on a store without tag support', function () {
     config(['cache.default' => 'file']);
     Cache::forgetDriver('file');
+    Cache::store('file')->flush();
     $service = app(CacheService::class);
 
     expect($service->remember(['level:9'], 'x', 60, fn () => 'v'))->toBe('v');

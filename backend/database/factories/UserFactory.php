@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\UserRole;
+use App\Models\Level;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -26,11 +28,28 @@ class UserFactory extends Factory
     {
         return [
             'name' => fake()->name(),
+            'phone' => fake()->unique()->regexify('01[0125][0-9]{8}'),
+            'parent_phone' => fake()->regexify('01[0125][0-9]{8}'),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
+            'role' => UserRole::Student,
+            'level_id' => null,
+            'blocked_at' => null,
             'remember_token' => Str::random(10),
         ];
+    }
+
+    /**
+     * Indicate that the user is a student attached to a level.
+     */
+    public function student(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => UserRole::Student,
+            'phone' => fake()->unique()->regexify('01[0125][0-9]{8}'),
+            'level_id' => Level::factory(),
+        ]);
     }
 
     /**
