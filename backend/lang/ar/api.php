@@ -13,4 +13,7 @@ return [
     'code_used_up' => 'تم استخدام هذا الكود بالكامل.',
     'exam_not_open' => 'هذا الامتحان غير متاح الآن.',
     'already_submitted' => 'تم تسليم هذه المحاولة بالفعل.',
+    'review_already_requested' => 'لقد طلبت مراجعة هذا الامتحان من قبل.',
+    'notifications.review_decided' => 'تم الرد على طلب المراجعة',
+    'notifications.score_changed' => 'تم تحديث درجتك في الامتحان',
 ];

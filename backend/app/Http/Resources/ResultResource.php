@@ -27,7 +27,10 @@ class ResultResource extends JsonResource
             'passed' => null,
             'submitted_at' => $this->submitted_at?->toIso8601String(),
             'review_available' => app(AttemptService::class)->reviewAvailable($this->resource),
-            'review_request' => null,
+            'review_request' => $this->whenLoaded('reviewRequest', fn () => $this->reviewRequest === null ? null : [
+                'status' => $this->reviewRequest->status->value,
+                'reply' => $this->reviewRequest->reply,
+            ], null),
         ];
     }
 

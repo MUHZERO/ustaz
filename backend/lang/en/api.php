@@ -13,4 +13,7 @@ return [
     'code_used_up' => 'This code has already been used.',
     'exam_not_open' => 'This exam is not open now.',
     'already_submitted' => 'This attempt is already submitted.',
+    'review_already_requested' => 'You already asked for a review of this exam.',
+    'notifications.review_decided' => 'Your review request was answered',
+    'notifications.score_changed' => 'Your exam score was updated',
 ];

@@ -41,6 +41,7 @@ Route::prefix('v1')->group(function () {
         Route::post('attempts/{attempt}/submit', [AttemptController::class, 'submit'])->whereNumber('attempt');
         Route::get('attempts/{attempt}/result', [AttemptController::class, 'result'])->whereNumber('attempt');
         Route::get('attempts/{attempt}/review', [AttemptController::class, 'review'])->whereNumber('attempt');
+        Route::post('attempts/{attempt}/review-request', [AttemptController::class, 'requestReview'])->whereNumber('attempt');
         Route::get('me/results', [ResultController::class, 'index']);
         Route::get('me/homework', [ResultController::class, 'homework']);
     });

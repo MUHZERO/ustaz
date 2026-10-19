@@ -19,7 +19,7 @@ final class ResultController extends Controller
         return ResultResource::collection(
             $request->user()->attempts()
                 ->where('status', AttemptStatus::Submitted)
-                ->with('assessment:id,title,kind,closes_at,show_answers')
+                ->with(['assessment:id,title,kind,closes_at,show_answers', 'reviewRequest'])
                 ->latest('submitted_at')
                 ->paginate(20),
         );

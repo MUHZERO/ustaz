@@ -16,6 +16,12 @@ class Question extends Model
     /** @use HasFactory<QuestionFactory> */
     use HasFactory;
 
+    protected static function booted(): void
+    {
+        // Past attempts keep their snapshots; a question in use is archived instead.
+        static::deleting(fn (Question $question) => ! AttemptAnswer::query()->where('question_id', $question->id)->exists());
+    }
+
     /**
      * @return array<string, string>
      */

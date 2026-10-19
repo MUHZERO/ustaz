@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Api\V1;
 use App\Exceptions\LockedException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\AnswerRequest;
+use App\Http\Requests\Api\ReviewRequestRequest;
 use App\Http\Resources\AttemptResource;
 use App\Http\Resources\ResultResource;
 use App\Http\Resources\ReviewItemResource;
 use App\Models\Assessment;
 use App\Models\Attempt;
 use App\Services\AttemptService;
+use App\Services\ReviewService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -48,7 +50,7 @@ final class AttemptController extends Controller
     {
         $this->authorizeOwner($request, $attempt);
 
-        return ResultResource::make($attempt->load('assessment'));
+        return ResultResource::make($attempt->load(['assessment', 'reviewRequest']));
     }
 
     public function review(Request $request, Attempt $attempt): AnonymousResourceCollection
@@ -60,6 +62,14 @@ final class AttemptController extends Controller
         }
 
         return ReviewItemResource::collection($attempt->answers()->orderBy('id')->get());
+    }
+
+    public function requestReview(ReviewRequestRequest $request, Attempt $attempt, ReviewService $reviews): ResultResource
+    {
+        $this->authorizeOwner($request, $attempt);
+        $reviews->request($attempt, $request->validated('note'));
+
+        return ResultResource::make($attempt->load(['assessment', 'reviewRequest']));
     }
 
     /**
