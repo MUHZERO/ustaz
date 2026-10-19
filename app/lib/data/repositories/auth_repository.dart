@@ -70,4 +70,12 @@ class AuthRepository {
   }
 
   Future<Student> me() => _api.get('/me', Student.fromJson);
+
+  Future<Student> updateProfile({
+    required String name,
+    required String parentPhone,
+  }) => _api.put('/me', {
+    'name': name,
+    'parent_phone': parentPhone.isEmpty ? null : parentPhone,
+  }, Student.fromJson);
 }

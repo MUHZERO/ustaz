@@ -12,6 +12,10 @@ import '../../modules/lecture/lecture_binding.dart';
 import '../../modules/lecture/lecture_view.dart';
 import '../../modules/player/player_binding.dart';
 import '../../modules/player/player_view.dart';
+import '../../modules/profile/edit/profile_edit_binding.dart';
+import '../../modules/profile/edit/profile_edit_view.dart';
+import '../../modules/redeem/redeem_binding.dart';
+import '../../modules/redeem/redeem_view.dart';
 import '../../modules/splash/splash_binding.dart';
 import '../../modules/splash/splash_view.dart';
 import '../../modules/shell/shell_binding.dart';
@@ -55,6 +59,16 @@ class AppPages {
       name: AppRoutes.player,
       page: PlayerView.new,
       binding: PlayerBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.redeem,
+      page: RedeemView.new,
+      binding: RedeemBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.profileEdit,
+      page: ProfileEditView.new,
+      binding: ProfileEditBinding(),
     ),
   ];
 }

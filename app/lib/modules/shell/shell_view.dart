@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../home/home_view.dart';
+import '../profile/profile_view.dart';
 import 'shell_controller.dart';
 
 class ShellView extends GetView<ShellController> {
@@ -14,7 +15,7 @@ class ShellView extends GetView<ShellController> {
         0 => const HomeView(),
         1 => _Placeholder(label: 'shell.results'.tr),
         2 => _Placeholder(label: 'shell.notifications'.tr),
-        _ => _Placeholder(label: 'shell.profile'.tr),
+        _ => const ProfileView(),
       },
       bottomNavigationBar: NavigationBar(
         selectedIndex: controller.selectedIndex.value,

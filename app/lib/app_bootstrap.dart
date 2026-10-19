@@ -6,11 +6,13 @@ import 'core/config/env.dart';
 import 'core/network/api_client.dart';
 import 'core/network/device_id_store.dart';
 import 'core/network/token_store.dart';
+import 'data/repositories/access_repository.dart';
 import 'data/repositories/auth_repository.dart';
 import 'data/repositories/content_repository.dart';
 import 'data/repositories/progress_repository.dart';
 import 'core/security/screen_capture_guard.dart';
 import 'services/auth_service.dart';
+import 'services/settings_service.dart';
 
 void bootstrapDependencies() {
   final storage = GetStorage();
@@ -23,6 +25,8 @@ void bootstrapDependencies() {
   Get.put(AuthRepository(Get.find(), Get.find(), Get.find()), permanent: true);
   Get.put(ContentRepository(Get.find()), permanent: true);
   Get.put(ProgressRepository(Get.find()), permanent: true);
+  Get.put(AccessRepository(Get.find()), permanent: true);
+  Get.put(SettingsService(storage), permanent: true);
   Get.put(ScreenCaptureGuard(), permanent: true);
   Get.put(AuthService(Get.find(), Get.find()), permanent: true);
 }
