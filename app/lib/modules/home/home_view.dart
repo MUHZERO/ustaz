@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../core/base/state_view.dart';
+import '../../core/routes/app_routes.dart';
 import '../../core/widgets/category_tile.dart';
 import '../../core/widgets/lecture_card_tile.dart';
 import '../../core/widgets/network_image.dart';
@@ -78,8 +79,14 @@ class HomeView extends GetView<HomeController> {
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 12,
                 ),
-                itemBuilder: (_, index) =>
-                    CategoryTile(category: data.categories[index]),
+                itemBuilder: (_, index) {
+                  final category = data.categories[index];
+                  return CategoryTile(
+                    category: category,
+                    onTap: () =>
+                        Get.toNamed(AppRoutes.category, arguments: category.id),
+                  );
+                },
               ),
             ],
             if (data.free.isNotEmpty) ...[

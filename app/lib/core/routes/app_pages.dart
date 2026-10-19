@@ -6,6 +6,8 @@ import '../../modules/auth/login/login_binding.dart';
 import '../../modules/auth/login/login_view.dart';
 import '../../modules/auth/register/register_binding.dart';
 import '../../modules/auth/register/register_view.dart';
+import '../../modules/category/category_binding.dart';
+import '../../modules/category/category_view.dart';
 import '../../modules/splash/splash_binding.dart';
 import '../../modules/splash/splash_view.dart';
 import '../../modules/shell/shell_binding.dart';
@@ -35,5 +37,10 @@ class AppPages {
       binding: DevicePendingBinding(),
     ),
     GetPage(name: AppRoutes.home, page: ShellView.new, binding: ShellBinding()),
+    GetPage(
+      name: AppRoutes.category,
+      page: CategoryView.new,
+      binding: CategoryBinding(),
+    ),
   ];
 }

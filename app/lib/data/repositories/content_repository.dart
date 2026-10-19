@@ -1,7 +1,9 @@
 import '../../core/network/api_client.dart';
 import '../models/announcement.dart';
 import '../models/category.dart';
+import '../models/exam_card.dart';
 import '../models/lecture_card.dart';
+import '../models/paper.dart';
 
 class HomeData {
   const HomeData({
@@ -39,4 +41,33 @@ class ContentRepository {
     '/categories',
     (json) => (json as List).map(Category.fromJson).toList(growable: false),
   );
+
+  Future<CategoryDetail> category(int id) =>
+      _api.get('/categories/$id', CategoryDetail.fromJson);
+}
+
+class CategoryDetail {
+  const CategoryDetail({
+    required this.category,
+    required this.lectures,
+    required this.exams,
+    required this.papers,
+  });
+
+  final Category category;
+  final List<LectureCard> lectures;
+  final List<ExamCard> exams;
+  final List<Paper> papers;
+
+  factory CategoryDetail.fromJson(Object? json) {
+    final value = json as Map<String, dynamic>;
+    List<T> list<T>(String key, T Function(Object?) fromJson) =>
+        (value[key] as List? ?? const []).map(fromJson).toList(growable: false);
+    return CategoryDetail(
+      category: Category.fromJson(value['category']),
+      lectures: list('lectures', LectureCard.fromJson),
+      exams: list('exams', ExamCard.fromJson),
+      papers: list('papers', Paper.fromJson),
+    );
+  }
 }
