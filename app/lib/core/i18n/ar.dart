@@ -44,4 +44,5 @@ const ar = <String, String>{
   'shell.notifications': 'الإشعارات',
   'shell.profile': 'الملف الشخصي',
   'player.title': 'الفيديو',
+  'pdf.page_of': 'صفحة @page من @count',
 };

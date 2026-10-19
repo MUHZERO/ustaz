@@ -10,6 +10,8 @@ import '../../modules/category/category_binding.dart';
 import '../../modules/category/category_view.dart';
 import '../../modules/lecture/lecture_binding.dart';
 import '../../modules/lecture/lecture_view.dart';
+import '../../modules/pdf/pdf_binding.dart';
+import '../../modules/pdf/pdf_view.dart';
 import '../../modules/player/player_binding.dart';
 import '../../modules/player/player_view.dart';
 import '../../modules/splash/splash_binding.dart';
@@ -56,5 +58,6 @@ class AppPages {
       page: PlayerView.new,
       binding: PlayerBinding(),
     ),
+    GetPage(name: AppRoutes.pdf, page: PdfView.new, binding: PdfBinding()),
   ];
 }

@@ -44,4 +44,5 @@ const en = <String, String>{
   'shell.notifications': 'Notifications',
   'shell.profile': 'Profile',
   'player.title': 'Video',
+  'pdf.page_of': 'Page @page of @count',
 };
