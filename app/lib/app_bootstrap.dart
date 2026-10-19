@@ -18,12 +18,14 @@ import 'services/auth_service.dart';
 import 'services/push_service.dart';
 import 'services/settings_service.dart';
 
-void bootstrapDependencies() {
-  final storage = GetStorage();
+/// Registers every service and repository. Tests pass their own [storage]
+/// and a fake [api]; the app uses the defaults.
+void bootstrapDependencies({GetStorage? storage, ApiClient? api}) {
+  storage ??= GetStorage();
   Get.put(TokenStore(storage), permanent: true);
   Get.put(DeviceIdStore(storage, const Uuid()), permanent: true);
   Get.put(
-    ApiClient(http.Client(), Get.find(), Get.find(), Env.apiUrl),
+    api ?? ApiClient(http.Client(), Get.find(), Get.find(), Env.apiUrl),
     permanent: true,
   );
   Get.put(AuthRepository(Get.find(), Get.find(), Get.find()), permanent: true);

@@ -10,42 +10,38 @@ class LectureView extends GetView<LectureController> {
   const LectureView({super.key});
 
   @override
-  Widget build(BuildContext context) => StateView(
-    controller: controller,
-    onRetry: controller.load,
-    builder: (_) {
-      final lecture = controller.data.value;
-      if (lecture == null) return const SizedBox.shrink();
-      final segments = [...lecture.segments]
-        ..sort((a, b) => a.position.compareTo(b.position));
-      return ListView(
-        key: const Key('lecture-segments'),
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Text(
-              lecture.title,
-              style: Theme.of(context).textTheme.headlineSmall,
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(title: Obx(() => Text(controller.data.value?.title ?? ''))),
+    body: StateView(
+      controller: controller,
+      onRetry: controller.load,
+      builder: (_) {
+        final lecture = controller.data.value;
+        if (lecture == null) return const SizedBox.shrink();
+        final segments = [...lecture.segments]
+          ..sort((a, b) => a.position.compareTo(b.position));
+        return ListView(
+          key: const Key('lecture-segments'),
+          children: [
+            if (lecture.description != null) ...[
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Text(lecture.description!),
+              ),
+              const SizedBox(height: 8),
+            ],
+            ...segments.map(
+              (segment) => ListTile(
+                leading: Icon(_iconFor(segment.type)),
+                title: Text(segment.title),
+                trailing: _trailing(segment),
+                onTap: () => controller.open(segment),
+              ),
             ),
-          ),
-          if (lecture.description != null) ...[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(lecture.description!),
-            ),
-            const SizedBox(height: 8),
           ],
-          ...segments.map(
-            (segment) => ListTile(
-              leading: Icon(_iconFor(segment.type)),
-              title: Text(segment.title),
-              trailing: _trailing(segment),
-              onTap: () => controller.open(segment),
-            ),
-          ),
-        ],
-      );
-    },
+        );
+      },
+    ),
   );
 
   IconData _iconFor(SegmentType type) => switch (type) {

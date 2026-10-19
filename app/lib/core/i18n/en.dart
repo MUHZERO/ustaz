@@ -1,6 +1,5 @@
 const en = <String, String>{
   'app_name': 'Ustaz',
-  'loading': 'Loading...',
   'retry': 'Retry',
   'empty': 'No data available',
   'splash': 'Welcome',

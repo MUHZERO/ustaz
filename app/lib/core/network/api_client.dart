@@ -47,12 +47,6 @@ class ApiClient {
     T Function(Object? json) parse, {
     Map<String, String>? query,
   }) => _request('PUT', path, parse, body: body, query: query);
-  Future<T> delete<T>(
-    String path,
-    T Function(Object? json) parse, {
-    Object? body,
-    Map<String, String>? query,
-  }) => _request('DELETE', path, parse, body: body, query: query);
   Future<T> _request<T>(
     String method,
     String path,

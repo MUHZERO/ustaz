@@ -1,6 +1,5 @@
 const ar = <String, String>{
   'app_name': 'أستاذ',
-  'loading': 'جارٍ التحميل...',
   'retry': 'إعادة المحاولة',
   'empty': 'لا توجد بيانات',
   'splash': 'أهلاً بك',

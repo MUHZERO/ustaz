@@ -38,11 +38,6 @@ class ContentRepository {
 
   Future<HomeData> home() => _api.get('/home', HomeData.fromJson);
 
-  Future<List<Category>> categories() => _api.get(
-    '/categories',
-    (json) => (json as List).map(Category.fromJson).toList(growable: false),
-  );
-
   Future<CategoryDetail> category(int id) =>
       _api.get('/categories/$id', CategoryDetail.fromJson);
 

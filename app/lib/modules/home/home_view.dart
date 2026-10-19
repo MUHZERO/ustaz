@@ -3,10 +3,9 @@ import 'package:get/get.dart';
 import '../../core/base/state_view.dart';
 import '../../core/routes/app_routes.dart';
 import '../../core/widgets/category_tile.dart';
-import '../../core/widgets/lecture_card_tile.dart';
+import '../../core/widgets/lecture_list.dart';
 import '../../core/widgets/network_image.dart';
 import '../../core/widgets/section_header.dart';
-import '../../data/models/lecture_card.dart';
 import 'home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -64,7 +63,7 @@ class HomeView extends GetView<HomeController> {
             ],
             if (data.continueWatching.isNotEmpty) ...[
               SectionHeader(title: 'home.continue_watching'.tr),
-              _LectureList(lectures: data.continueWatching),
+              LectureList(lectures: data.continueWatching),
             ],
             if (data.categories.isNotEmpty) ...[
               SectionHeader(title: 'home.categories'.tr),
@@ -91,29 +90,12 @@ class HomeView extends GetView<HomeController> {
             ],
             if (data.free.isNotEmpty) ...[
               SectionHeader(title: 'home.free_lectures'.tr),
-              _LectureList(lectures: data.free),
+              LectureList(lectures: data.free),
             ],
             const SizedBox(height: 20),
           ],
         ),
       );
     },
-  );
-}
-
-class _LectureList extends StatelessWidget {
-  const _LectureList({required this.lectures});
-  final List<LectureCard> lectures;
-
-  @override
-  Widget build(BuildContext context) => SizedBox(
-    height: 205,
-    child: ListView.separated(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      scrollDirection: Axis.horizontal,
-      itemCount: lectures.length,
-      separatorBuilder: (_, _) => const SizedBox(width: 12),
-      itemBuilder: (_, index) => LectureCardTile(lecture: lectures[index]),
-    ),
   );
 }
