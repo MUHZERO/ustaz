@@ -27,6 +27,16 @@ the same services. Reads go through a tagged cache with DB fallback; heavy work 
 - Commits: small, imperative, no attribution lines. Author `Mohamed Nait Merri <175737010+MUHZERO@users.noreply.github.com>`.
 - Run only the touched test file while iterating; full `php artisan test` once before each commit.
 
+## Laravel checklist (every task, checked in review — Mohamed's rule)
+
+- Every endpoint/panel action that takes input has a **Form Request** (or Filament form rules) with strict rules
+  (types, `exists`, `max` lengths, regex for phones, enums via `Rule::enum`); never `$request->all()` into a model.
+- Business logic only in **Services**; **Observers** for side effects of model changes (cache flush, history);
+  **Policies** for every authorization decision (API and panel); **Jobs** for anything slow.
+- **API Resources** for every response (no raw models, no hidden fields like `youtube_id` leaking when locked).
+- Mass assignment: explicit fillable lists; ids from the URL, never trusted from the body.
+- Rate limits on auth and write endpoints; signed URLs for files; no secrets or ids in logs.
+
 ## Review Focus
 
 1. Two requests redeeming the last use of one code at the same time → exactly one succeeds (Task 7 test `redeem is atomic under concurrency`).
