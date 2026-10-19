@@ -44,13 +44,13 @@ void main() {
                 'assessment_id': 2,
                 'title': 'Started',
                 'lecture_id': 5,
-                'attempt': {'status': 'in_progress', 'percent': null},
+                'attempt': {'id': 4, 'status': 'in_progress', 'percent': null},
               },
               {
                 'assessment_id': 3,
                 'title': 'Finished',
                 'lecture_id': 5,
-                'attempt': {'status': 'submitted', 'percent': 85},
+                'attempt': {'id': 5, 'status': 'submitted', 'percent': 85},
               },
             ],
           }),
@@ -63,12 +63,20 @@ void main() {
     );
     Get.put(HomeworkController(AssessmentRepository(api)));
     Object? opened;
+    Object? result;
     await tester.pumpWidget(
       GetMaterialApp(
         translations: AppTranslations(),
         locale: const Locale('en'),
         home: const Scaffold(body: HomeworkView()),
         getPages: [
+          GetPage(
+            name: AppRoutes.assessmentResult,
+            page: () {
+              result = Get.arguments;
+              return const SizedBox();
+            },
+          ),
           GetPage(
             name: AppRoutes.assessment,
             page: () {
@@ -89,6 +97,9 @@ void main() {
     await tester.tap(find.text('Finished'));
     await tester.pumpAndSettle();
     expect(opened, isNull);
+    expect((result! as Map)['attemptId'], 5);
+    Get.back();
+    await tester.pumpAndSettle();
 
     await tester.tap(find.text('New'));
     await tester.pumpAndSettle();

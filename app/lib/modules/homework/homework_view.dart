@@ -15,9 +15,7 @@ class HomeworkView extends GetView<HomeworkController> {
       title: homework.title,
       subtitle: 'homework.${homework.status.name}'.tr,
       percent: homework.percent,
-      onTap: controller.canOpen(homework)
-          ? () => controller.open(homework)
-          : null,
+      onTap: () => controller.open(homework),
     ),
   );
 }

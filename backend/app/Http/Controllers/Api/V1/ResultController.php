@@ -41,6 +41,7 @@ final class ResultController extends Controller
                 'title' => $assessment->title,
                 'lecture_id' => $assessment->lecture_id,
                 'attempt' => ($attempt = $assessment->attempts->first()) === null ? null : [
+                    'id' => $attempt->id,
                     'status' => $attempt->status->value,
                     'percent' => (float) $attempt->max_score > 0 ? round((float) $attempt->score / (float) $attempt->max_score * 100, 2) : null,
                 ],

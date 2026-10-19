@@ -6,6 +6,7 @@ class Homework {
     required this.title,
     required this.lectureId,
     required this.status,
+    this.attemptId,
     this.percent,
   });
 
@@ -13,6 +14,7 @@ class Homework {
   final String title;
   final int lectureId;
   final HomeworkStatus status;
+  final int? attemptId;
   final num? percent;
 
   factory Homework.fromJson(Object? json) {
@@ -27,6 +29,7 @@ class Homework {
         'submitted' => HomeworkStatus.done,
         _ => HomeworkStatus.inProgress,
       },
+      attemptId: (attempt?['id'] as num?)?.toInt(),
       percent: attempt?['percent'] as num?,
     );
   }

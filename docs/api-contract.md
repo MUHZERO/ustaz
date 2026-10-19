@@ -92,7 +92,7 @@ No password reset endpoint: the teacher resets it in the panel.
 | GET | `/attempts/{id}/review` | — | `ReviewItem[]`, 403 `locked` until review is available |
 | POST | `/attempts/{id}/review-request` | `note` (max 500) | `Result`; once per exam attempt → 409 `review_already_requested` |
 | GET | `/me/results` | — | paginated `Result & {title, kind}` |
-| GET | `/me/homework` | — | `[{assessment_id, title, lecture_id, attempt: {status, percent}|null}]` |
+| GET | `/me/homework` | — | `[{assessment_id, title, lecture_id, attempt: {id, status, percent}|null}]` |
 
 ### Notifications
 | Method | Path | Returns |
