@@ -1,5 +1,11 @@
 import 'package:get/get.dart';
 import 'app_routes.dart';
+import '../../modules/assessment/player/assessment_player_binding.dart';
+import '../../modules/assessment/player/assessment_player_view.dart';
+import '../../modules/assessment/result/assessment_result_binding.dart';
+import '../../modules/assessment/result/assessment_result_view.dart';
+import '../../modules/assessment/review/assessment_review_binding.dart';
+import '../../modules/assessment/review/assessment_review_view.dart';
 import '../../modules/auth/device_pending/device_pending_binding.dart';
 import '../../modules/auth/device_pending/device_pending_view.dart';
 import '../../modules/auth/login/login_binding.dart';
@@ -59,5 +65,20 @@ class AppPages {
       binding: PlayerBinding(),
     ),
     GetPage(name: AppRoutes.pdf, page: PdfView.new, binding: PdfBinding()),
+    GetPage(
+      name: AppRoutes.assessment,
+      page: AssessmentPlayerView.new,
+      binding: AssessmentPlayerBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.assessmentResult,
+      page: AssessmentResultView.new,
+      binding: AssessmentResultBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.assessmentReview,
+      page: AssessmentReviewView.new,
+      binding: AssessmentReviewBinding(),
+    ),
   ];
 }

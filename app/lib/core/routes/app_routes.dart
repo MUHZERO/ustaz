@@ -10,4 +10,6 @@ abstract final class AppRoutes {
   static const redeem = '/redeem';
   static const pdf = '/pdf';
   static const assessment = '/assessment';
+  static const assessmentResult = '/assessment/result';
+  static const assessmentReview = '/assessment/review';
 }
