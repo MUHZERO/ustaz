@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'app_routes.dart';
 import '../../modules/auth/device_pending/device_pending_binding.dart';
@@ -9,6 +8,8 @@ import '../../modules/auth/register/register_binding.dart';
 import '../../modules/auth/register/register_view.dart';
 import '../../modules/splash/splash_binding.dart';
 import '../../modules/splash/splash_view.dart';
+import '../../modules/shell/shell_binding.dart';
+import '../../modules/shell/shell_view.dart';
 
 class AppPages {
   const AppPages._();
@@ -33,13 +34,6 @@ class AppPages {
       page: DevicePendingView.new,
       binding: DevicePendingBinding(),
     ),
-    GetPage(name: AppRoutes.home, page: _HomePlaceholder.new),
+    GetPage(name: AppRoutes.home, page: ShellView.new, binding: ShellBinding()),
   ];
-}
-
-class _HomePlaceholder extends StatelessWidget {
-  const _HomePlaceholder();
-  @override
-  Widget build(BuildContext context) =>
-      Scaffold(body: Center(child: Text('home.placeholder'.tr)));
 }

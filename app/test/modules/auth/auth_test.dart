@@ -2,9 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:ustaz/core/network/api_client.dart';
@@ -16,16 +14,10 @@ import 'package:ustaz/modules/auth/device_pending/device_pending_controller.dart
 import 'package:ustaz/modules/auth/device_pending/device_pending_view.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../helpers/test_storage.dart';
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-
-  setUpAll(() {
-    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-        .setMockMethodCallHandler(
-          const MethodChannel('plugins.flutter.io/path_provider'),
-          (_) async => '/tmp',
-        );
-  });
 
   test('register validates egyptian phone', () {
     expect(Validators.phone('01012345678'), isNull);
@@ -36,10 +28,9 @@ void main() {
   });
 
   test('login stores token and opens home', () async {
-    final name = 'auth-${DateTime.now().microsecondsSinceEpoch}';
-    await GetStorage.init(name);
-    final store = TokenStore(GetStorage(name));
-    final deviceIds = DeviceIdStore(GetStorage(name), const Uuid());
+    final storage = await openTestStorage('auth-login-test');
+    final store = TokenStore(storage);
+    final deviceIds = DeviceIdStore(storage, const Uuid());
     final api = ApiClient(
       MockClient(
         (_) async => http.Response(
@@ -87,9 +78,7 @@ void main() {
   });
 
   test('splash routes by token presence', () async {
-    final name = 'splash-${DateTime.now().microsecondsSinceEpoch}';
-    await GetStorage.init(name);
-    final store = TokenStore(GetStorage(name));
+    final store = TokenStore(await openTestStorage('splash-test'));
     expect(store.token, isNull);
     await store.save('token');
     expect(store.token, 'token');

@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
@@ -11,25 +10,17 @@ import 'package:ustaz/core/network/device_id_store.dart';
 import 'package:ustaz/core/network/token_store.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../helpers/test_storage.dart';
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-
-  setUpAll(() {
-    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-        .setMockMethodCallHandler(
-          const MethodChannel('plugins.flutter.io/path_provider'),
-          (call) async => '/tmp',
-        );
-  });
 
   late GetStorage storage;
   late TokenStore tokenStore;
   late DeviceIdStore deviceIdStore;
 
   setUp(() async {
-    final name = 'api-client-${DateTime.now().microsecondsSinceEpoch}';
-    await GetStorage.init(name);
-    storage = GetStorage(name);
+    storage = await openTestStorage('api-client-test');
     tokenStore = TokenStore(storage);
     deviceIdStore = DeviceIdStore(storage, const Uuid());
   });

@@ -7,6 +7,7 @@ import 'core/network/api_client.dart';
 import 'core/network/device_id_store.dart';
 import 'core/network/token_store.dart';
 import 'data/repositories/auth_repository.dart';
+import 'data/repositories/content_repository.dart';
 import 'services/auth_service.dart';
 
 void bootstrapDependencies() {
@@ -18,5 +19,6 @@ void bootstrapDependencies() {
     permanent: true,
   );
   Get.put(AuthRepository(Get.find(), Get.find(), Get.find()), permanent: true);
+  Get.put(ContentRepository(Get.find()), permanent: true);
   Get.put(AuthService(Get.find(), Get.find()), permanent: true);
 }
