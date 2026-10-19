@@ -27,6 +27,18 @@ requests — from one panel.
 
 Five-minute local setup, demo accounts and production notes: [backend/README.md](backend/README.md).
 
+## App
+
+- Flutter and GetX, Android and iOS, Arabic (RTL) and English; every screen shares the same loading, empty
+  and error states.
+- Gated lectures with video, PDF and quiz segments; timed exams that follow the server deadline, keep answers
+  through network drops and resume after the app is killed.
+- Content protection: one device per student, `FLAG_SECURE` on Android, video paused while the iOS screen is
+  recorded, and a moving watermark with the student's name and phone.
+- Rebranded for a teacher from one config file and the platform ids; Firebase push is optional.
+
+Run it against the demo backend, rebrand it and enable push: [app/README.md](app/README.md).
+
 ## License
 
 [MIT](LICENSE) © 2026 Mohamed Nait Merri
