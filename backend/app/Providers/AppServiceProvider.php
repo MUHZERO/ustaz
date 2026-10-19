@@ -35,6 +35,9 @@ class AppServiceProvider extends ServiceProvider
         RateLimiter::for('login', fn (Request $request) => Limit::perMinute(5)
             ->by($request->input('phone').'|'.$request->ip()));
 
+        RateLimiter::for('progress', fn (Request $request) => Limit::perMinute(10)
+            ->by($request->user()?->id.'|'.$request->input('segment_id')));
+
         Category::observe(ContentObserver::class);
         Lecture::observe(ContentObserver::class);
         Segment::observe(ContentObserver::class);

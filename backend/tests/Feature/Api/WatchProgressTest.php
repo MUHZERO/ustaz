@@ -87,3 +87,17 @@ it('progress endpoint is throttled at 10 per minute per segment', function () {
 
     ($this->send)(['position_seconds' => 11, 'watched_seconds' => 11])->assertStatus(429);
 });
+
+it('keeps the first completion time', function () {
+    ($this->send)(['position_seconds' => 950, 'watched_seconds' => 950]);
+    $first = WatchProgress::first()->completed_at;
+
+    $this->travel(1)->hour();
+    ($this->send)(['position_seconds' => 960, 'watched_seconds' => 960]);
+
+    expect(WatchProgress::first()->completed_at->equalTo($first))->toBeTrue();
+});
+
+it('rejects non numeric values', function () {
+    ($this->send)(['position_seconds' => 'abc', 'watched_seconds' => 5])->assertStatus(422)->assertJsonValidationErrors('position_seconds');
+});

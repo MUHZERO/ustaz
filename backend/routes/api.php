@@ -25,6 +25,9 @@ Route::prefix('v1')->group(function () {
         Route::get('categories', [CategoryController::class, 'index']);
         Route::get('categories/{category}', [CategoryController::class, 'show'])->whereNumber('category');
         Route::get('lectures/{lecture}', [LectureController::class, 'show'])->whereNumber('lecture');
+        Route::post('lectures/{lecture}/progress', [LectureController::class, 'progress'])
+            ->whereNumber('lecture')
+            ->middleware('throttle:progress');
         Route::get('announcements', [AnnouncementController::class, '__invoke']);
     });
 });

@@ -7,4 +7,5 @@ return [
     'not_found' => 'The requested item was not found.',
     'device_pending' => 'This device is not activated; a reset request has been sent.',
     'account_blocked' => 'Your account has been blocked, contact your teacher.',
+    'locked' => 'This content is locked.',
 ];
