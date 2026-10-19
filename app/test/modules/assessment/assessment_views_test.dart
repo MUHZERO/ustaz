@@ -48,6 +48,7 @@ void main() {
                 'assessment_id': 3,
                 'kind': 'quiz',
                 'started_at': start.toIso8601String(),
+                'server_time': start.toIso8601String(),
                 'deadline_at': start
                     .add(const Duration(minutes: 5))
                     .toIso8601String(),

@@ -25,6 +25,7 @@ class AttemptResource extends JsonResource
             'kind' => $this->assessment->kind->value,
             'started_at' => $this->started_at->toIso8601String(),
             'deadline_at' => $this->deadline_at?->toIso8601String(),
+            'server_time' => now()->toIso8601String(),
             'status' => $this->status->value,
             'questions' => $this->answers->map(fn ($answer) => [
                 'id' => $answer->question_id,

@@ -73,11 +73,7 @@ class AssessmentPlayerController extends BaseController {
 
   Future<void> load() => run(() async {
     final next = await _repository.start(assessmentId);
-    // The offset is fixed when the attempt is first seen: on resume `started_at`
-    // is old and no longer tells the server's current time.
-    _serverOffset =
-        _store.serverOffset(next.id) ?? next.startedAt.difference(clock());
-    _store.saveServerOffset(next.id, _serverOffset);
+    _serverOffset = next.serverTime.difference(clock());
     pendingAnswers.assignAll(_store.pending(next.id));
     answers.assignAll({...next.answers, ...pendingAnswers});
     attempt.value = next;

@@ -8,6 +8,7 @@ class Attempt {
     required this.assessmentId,
     required this.kind,
     required this.startedAt,
+    required this.serverTime,
     required this.isSubmitted,
     required this.questions,
     required this.answers,
@@ -18,6 +19,9 @@ class Attempt {
   final int assessmentId;
   final AssessmentKind kind;
   final DateTime startedAt;
+
+  /// The server's clock when this response was built.
+  final DateTime serverTime;
   final DateTime? deadlineAt;
   final bool isSubmitted;
   final List<Question> questions;
@@ -36,6 +40,7 @@ class Attempt {
       assessmentId: (value['assessment_id'] as num).toInt(),
       kind: AssessmentKind.values.byName(value['kind'] as String),
       startedAt: DateTime.parse(value['started_at'] as String),
+      serverTime: DateTime.parse(value['server_time'] as String),
       deadlineAt: value['deadline_at'] == null
           ? null
           : DateTime.parse(value['deadline_at'] as String),

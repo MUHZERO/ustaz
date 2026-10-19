@@ -71,6 +71,16 @@ void main() {
     expect(controller.remaining.value, const Duration(minutes: 9));
   });
 
+  test('resume on another phone counts from the server clock', () async {
+    // Four minutes into the exam, a fresh install whose clock is two hours behind.
+    final backend = _Backend()
+      ..serverNow = _serverStart.add(const Duration(minutes: 4));
+    final now = _serverStart.subtract(const Duration(hours: 2));
+    final controller = await _start(backend, clock: () => now);
+
+    expect(controller.remaining.value, const Duration(minutes: 6));
+  });
+
   test('auto submits at zero', () async {
     var now = _serverStart;
     final finished = <AssessmentResult>[];
@@ -93,9 +103,7 @@ void main() {
   });
 
   test('resume restores answers', () async {
-    AttemptStore(_storage)
-      ..savePending(7, {2: 21})
-      ..saveServerOffset(7, Duration.zero);
+    AttemptStore(_storage).savePending(7, {2: 21});
     final backend = _Backend()..serverAnswers = {'1': 11};
     final controller = await _start(backend);
     await _settle();
@@ -160,11 +168,15 @@ class _Backend {
     return http.Response('{"code":"not_found"}', 404);
   }
 
+  /// The server clock at the time of the response.
+  DateTime serverNow = _serverStart;
+
   Map<String, Object?> _attempt() => {
     'id': 7,
     'assessment_id': 3,
     'kind': 'exam',
     'started_at': _serverStart.toIso8601String(),
+    'server_time': serverNow.toIso8601String(),
     'deadline_at': _serverStart
         .add(const Duration(minutes: 10))
         .toIso8601String(),

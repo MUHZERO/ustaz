@@ -8,7 +8,6 @@ class AttemptStore {
   final GetStorage _storage;
 
   String _pendingKey(int attemptId) => 'attempt.$attemptId.pending';
-  String _offsetKey(int attemptId) => 'attempt.$attemptId.server_offset_ms';
 
   /// Answers chosen but not yet acknowledged by the server.
   Map<int, int> pending(int attemptId) =>
@@ -23,16 +22,6 @@ class AttemptStore {
     ),
   );
 
-  Duration? serverOffset(int attemptId) {
-    final milliseconds = _storage.read<int>(_offsetKey(attemptId));
-    return milliseconds == null ? null : Duration(milliseconds: milliseconds);
-  }
-
-  void saveServerOffset(int attemptId, Duration offset) =>
-      unawaited(_storage.write(_offsetKey(attemptId), offset.inMilliseconds));
-
-  void clear(int attemptId) {
-    unawaited(_storage.remove(_pendingKey(attemptId)));
-    unawaited(_storage.remove(_offsetKey(attemptId)));
-  }
+  void clear(int attemptId) =>
+      unawaited(_storage.remove(_pendingKey(attemptId)));
 }
