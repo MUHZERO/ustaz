@@ -53,6 +53,18 @@ class UserFactory extends Factory
     }
 
     /**
+     * Indicate that the user is a teacher.
+     */
+    public function teacher(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => UserRole::Teacher,
+            'email' => fake()->unique()->safeEmail(),
+            'level_id' => null,
+        ]);
+    }
+
+    /**
      * Indicate that the model's email address should be unverified.
      */
     public function unverified(): static
