@@ -40,7 +40,7 @@ ExamCard     { id, title, opens_at, closes_at, duration_minutes, state: upcoming
 Paper        { id, title, url }                                                    // signed, 30 min
 Announcement { id, title, body|null, image_url|null, created_at }
 Question     { id, text|null, image_url|null, options: [{ id, text|null, image_url|null }] }
-Attempt      { id, assessment_id, kind: quiz|homework|exam, started_at, deadline_at|null,
+Attempt      { id, assessment_id, kind: quiz|homework|exam, started_at, deadline_at|null, server_time,
                status: in_progress|submitted, questions: Question[], answers: { question_id: option_id } }
 Result       { attempt_id, score, max_score, percent, passed|null, submitted_at,
                review_available, review_request: { status: pending|accepted|rejected, reply|null }|null }

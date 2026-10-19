@@ -1,5 +1,11 @@
 import 'package:get/get.dart';
 import 'app_routes.dart';
+import '../../modules/assessment/player/assessment_player_binding.dart';
+import '../../modules/assessment/player/assessment_player_view.dart';
+import '../../modules/assessment/result/assessment_result_binding.dart';
+import '../../modules/assessment/result/assessment_result_view.dart';
+import '../../modules/assessment/review/assessment_review_binding.dart';
+import '../../modules/assessment/review/assessment_review_view.dart';
 import '../../modules/auth/device_pending/device_pending_binding.dart';
 import '../../modules/auth/device_pending/device_pending_view.dart';
 import '../../modules/auth/login/login_binding.dart';
@@ -10,6 +16,8 @@ import '../../modules/category/category_binding.dart';
 import '../../modules/category/category_view.dart';
 import '../../modules/lecture/lecture_binding.dart';
 import '../../modules/lecture/lecture_view.dart';
+import '../../modules/pdf/pdf_binding.dart';
+import '../../modules/pdf/pdf_view.dart';
 import '../../modules/player/player_binding.dart';
 import '../../modules/player/player_view.dart';
 import '../../modules/splash/splash_binding.dart';
@@ -55,6 +63,22 @@ class AppPages {
       name: AppRoutes.player,
       page: PlayerView.new,
       binding: PlayerBinding(),
+    ),
+    GetPage(name: AppRoutes.pdf, page: PdfView.new, binding: PdfBinding()),
+    GetPage(
+      name: AppRoutes.assessment,
+      page: AssessmentPlayerView.new,
+      binding: AssessmentPlayerBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.assessmentResult,
+      page: AssessmentResultView.new,
+      binding: AssessmentResultBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.assessmentReview,
+      page: AssessmentReviewView.new,
+      binding: AssessmentReviewBinding(),
     ),
   ];
 }

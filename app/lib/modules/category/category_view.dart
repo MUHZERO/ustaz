@@ -55,7 +55,9 @@ class CategoryView extends GetView<CategoryController> {
             ],
             if (data.exams.isNotEmpty) ...[
               SectionHeader(title: 'category.exams'.tr),
-              ...data.exams.map(_ExamCardTile.new),
+              ...data.exams.map(
+                (exam) => _ExamCardTile(exam, () => controller.openExam(exam)),
+              ),
             ],
             if (data.papers.isNotEmpty) ...[
               SectionHeader(title: 'category.papers'.tr),
@@ -95,14 +97,16 @@ class _LockedBanner extends StatelessWidget {
 }
 
 class _ExamCardTile extends StatelessWidget {
-  const _ExamCardTile(this.exam);
+  const _ExamCardTile(this.exam, this.onTap);
   final ExamCard exam;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) => Card(
     margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
     child: ListTile(
       title: Text(exam.title),
+      onTap: onTap,
       trailing: exam.isLocked
           ? const LockedBadge()
           : Text('category.exam_state_${exam.state.name}'.tr),
