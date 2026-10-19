@@ -46,7 +46,7 @@ final class AccessService
 
     public function canOpenCategory(User $user, Category $category): bool
     {
-        return $this->opens($user, $category, $category->is_free);
+        return $this->opens($user, $category, false);
     }
 
     public function canOpenLecture(User $user, Lecture $lecture): bool
@@ -136,13 +136,14 @@ final class AccessService
         ];
     }
 
+    /** Everything inside a free category is free, as in the student's content view. */
     private function opens(User $user, Category $category, bool $isFree): bool
     {
         if ($user->level_id !== $category->level_id) {
             return false;
         }
 
-        return $isFree || in_array($category->id, $this->subscribedCategoryIds($user), true);
+        return $isFree || $category->is_free || in_array($category->id, $this->subscribedCategoryIds($user), true);
     }
 
     /**

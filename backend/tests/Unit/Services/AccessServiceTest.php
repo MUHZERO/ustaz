@@ -82,6 +82,17 @@ it('free lecture inside paid category opens', function () {
         ->and($this->access->canOpenLecture($this->student, $paid))->toBeFalse();
 });
 
+it('everything inside a free category opens', function () {
+    $free = Category::factory()->for($this->level)->create(['is_free' => true]);
+    $lecture = Lecture::factory()->for($free)->create(['is_free' => false]);
+    $quiz = Assessment::factory()->create(['kind' => AssessmentKind::Quiz, 'category_id' => $free->id, 'lecture_id' => $lecture->id]);
+    $exam = Assessment::factory()->create(['kind' => AssessmentKind::Exam, 'category_id' => $free->id, 'is_free' => false]);
+
+    expect($this->access->canOpenLecture($this->student, $lecture))->toBeTrue()
+        ->and($this->access->canOpenAssessment($this->student, $quiz))->toBeTrue()
+        ->and($this->access->canOpenAssessment($this->student, $exam))->toBeTrue();
+});
+
 it('free assessment opens and paid exam needs subscription', function () {
     $free = Assessment::factory()->create(['kind' => AssessmentKind::Exam, 'category_id' => $this->category->id, 'is_free' => true]);
     $paid = Assessment::factory()->create(['kind' => AssessmentKind::Exam, 'category_id' => $this->category->id, 'is_free' => false]);
