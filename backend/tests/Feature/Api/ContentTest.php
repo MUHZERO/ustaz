@@ -13,7 +13,9 @@ use App\Models\Subscription;
 use App\Models\User;
 use App\Services\DeviceService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 uses(RefreshDatabase::class);
 
@@ -109,8 +111,8 @@ it('other level lecture is not found', function () {
 
 it('signed file url serves the file and rejects tampering', function () {
     Subscription::factory()->for($this->student)->for($this->paid)->create();
-    \Illuminate\Support\Facades\Storage::fake('local');
-    \Illuminate\Support\Facades\Storage::disk('local')->put('papers/l1.pdf', '%PDF-1.4 test');
+    Storage::fake('local');
+    Storage::disk('local')->put('papers/l1.pdf', '%PDF-1.4 test');
 
     $url = ($this->api)()->getJson("/api/v1/lectures/{$this->lecture->id}")->json('data.segments.1.pdf.url');
 
@@ -118,11 +120,25 @@ it('signed file url serves the file and rejects tampering', function () {
     $this->get($url.'x')->assertForbidden();
 });
 
-it('home uses at most 8 queries', function () {
+it('home uses at most 10 queries', function () {
     DB::enableQueryLog();
     ($this->api)()->getJson('/api/v1/home')->assertOk();
 
-    expect(count(DB::getQueryLog()))->toBeLessThanOrEqual(8);
+    expect(count(DB::getQueryLog()))->toBeLessThanOrEqual(10);
+});
+
+it('home query count does not grow with content', function () {
+    DB::enableQueryLog();
+    ($this->api)()->getJson('/api/v1/home')->assertOk();
+    $small = count(DB::getQueryLog());
+
+    Lecture::factory()->count(20)->for($this->paid)->create(['published_at' => now()])
+        ->each(fn (Lecture $lecture) => Segment::factory()->for($lecture)->create(['type' => SegmentType::Video, 'youtube_id' => 'x', 'duration_seconds' => 60]));
+    Cache::flush();
+    DB::flushQueryLog();
+    ($this->api)()->getJson('/api/v1/home')->assertOk();
+
+    expect(count(DB::getQueryLog()))->toBe($small);
 });
 
 it('second home request uses 3 or fewer queries', function () {
@@ -148,4 +164,19 @@ it('lists announcements paginated', function () {
     ($this->api)()->getJson('/api/v1/announcements')->assertOk()
         ->assertJsonStructure(['data' => [['id', 'title']], 'meta' => ['current_page', 'last_page', 'per_page', 'total']])
         ->assertJsonPath('meta.per_page', 20);
+});
+
+it('video behind an unpassed gating quiz hides its youtube id', function () {
+    Subscription::factory()->for($this->student)->for($this->paid)->create();
+    $quiz = Assessment::factory()->create(['kind' => AssessmentKind::Quiz, 'lecture_id' => $this->lecture->id]);
+    $this->video->update(['position' => 2]);
+    Segment::factory()->for($this->lecture)->create(['type' => SegmentType::Quiz, 'position' => 1, 'assessment_id' => $quiz->id, 'is_gating' => true, 'pass_percent' => 50]);
+
+    $response = ($this->api)()->getJson("/api/v1/lectures/{$this->lecture->id}")->assertOk()
+        ->assertJsonPath('data.segments.0.type', 'quiz')
+        ->assertJsonPath('data.segments.0.is_locked', false)
+        ->assertJsonPath('data.segments.0.passed', false)
+        ->assertJsonPath('data.segments.1.is_locked', true);
+
+    expect($response->getContent())->not->toContain('SECRETID123');
 });

@@ -20,18 +20,28 @@ final class AccessService
      */
     public function subscribedCategoryIds(User $user): array
     {
+        return array_keys($this->subscriptionEnds($user));
+    }
+
+    /**
+     * Active subscriptions as category id => ISO end date (null = lifetime), ascending by id.
+     *
+     * @return array<int, string|null>
+     */
+    public function subscriptionEnds(User $user): array
+    {
         $tags = ["student:{$user->id}"];
-        $key = "subscribed-categories:{$user->id}";
+        $key = "subscriptions:{$user->id}";
 
         $cached = $this->cache->remember($tags, $key, 600, fn () => $this->computeSubscriptions($user));
 
         if ($cached['valid_until'] !== null && now()->getTimestamp() >= $cached['valid_until']) {
             $this->cache->flush($tags);
 
-            return $this->subscribedCategoryIds($user);
+            return $this->subscriptionEnds($user);
         }
 
-        return $cached['ids'];
+        return $cached['ends'];
     }
 
     public function canOpenCategory(User $user, Category $category): bool
@@ -66,26 +76,33 @@ final class AccessService
             return $segments->pluck('id')->all();
         }
 
-        $best = $this->bestGateRatios($user, $segments);
+        return $this->lockedAfterGates(
+            $segments->map->only(['id', 'is_gating', 'assessment_id', 'pass_percent'])->all(),
+            $this->bestGateRatios($user, $segments),
+        );
+    }
 
+    /**
+     * Segments after the first unpassed gating quiz are locked; the quiz itself stays open.
+     *
+     * @param  array<int, array{id: int, is_gating: bool, assessment_id: int|null, pass_percent: int|null}>  $segments  ordered by position
+     * @param  array<int, float>  $bestRatios  assessment id => best score / max score
+     * @return array<int, int>
+     */
+    public function lockedAfterGates(array $segments, array $bestRatios): array
+    {
         $locked = [];
         $blocked = false;
 
         foreach ($segments as $segment) {
             if ($blocked) {
-                $locked[] = $segment->id;
+                $locked[] = $segment['id'];
 
                 continue;
             }
 
-            if (! $segment->is_gating || $segment->assessment_id === null) {
-                continue;
-            }
-
-            $percent = ($best[$segment->assessment_id] ?? 0.0) * 100;
-
-            if ($percent < ($segment->pass_percent ?? 0)) {
-                $blocked = true;
+            if ($segment['is_gating'] && $segment['assessment_id'] !== null) {
+                $blocked = ($bestRatios[$segment['assessment_id']] ?? 0.0) * 100 < ($segment['pass_percent'] ?? 0);
             }
         }
 
@@ -100,7 +117,7 @@ final class AccessService
     /**
      * Subscription writes call flushStudent(), so an empty answer is safe to cache.
      *
-     * @return array{ids: array<int, int>, valid_until: int|null}
+     * @return array{ends: array<int, string|null>, valid_until: int|null}
      */
     private function computeSubscriptions(User $user): array
     {
@@ -108,12 +125,14 @@ final class AccessService
             ->where(fn ($query) => $query->whereNull('ends_at')->orWhere('ends_at', '>', now()))
             ->get(['category_id', 'ends_at']);
 
-        $ids = $subscriptions->pluck('category_id')->unique()->sort()->values()->all();
-        $nearest = $subscriptions->pluck('ends_at')->filter()->min();
+        $ends = $subscriptions
+            ->sortBy('category_id')
+            ->mapWithKeys(fn ($subscription) => [(int) $subscription->category_id => $subscription->ends_at?->toIso8601String()])
+            ->all();
 
         return [
-            'ids' => array_map('intval', $ids),
-            'valid_until' => $nearest?->getTimestamp(),
+            'ends' => $ends,
+            'valid_until' => $subscriptions->pluck('ends_at')->filter()->min()?->getTimestamp(),
         ];
     }
 

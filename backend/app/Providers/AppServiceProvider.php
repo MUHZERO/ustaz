@@ -2,6 +2,13 @@
 
 namespace App\Providers;
 
+use App\Models\Announcement;
+use App\Models\Assessment;
+use App\Models\Category;
+use App\Models\Lecture;
+use App\Models\Paper;
+use App\Models\Segment;
+use App\Observers\ContentObserver;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -27,5 +34,12 @@ class AppServiceProvider extends ServiceProvider
 
         RateLimiter::for('login', fn (Request $request) => Limit::perMinute(5)
             ->by($request->input('phone').'|'.$request->ip()));
+
+        Category::observe(ContentObserver::class);
+        Lecture::observe(ContentObserver::class);
+        Segment::observe(ContentObserver::class);
+        Paper::observe(ContentObserver::class);
+        Assessment::observe(ContentObserver::class);
+        Announcement::observe(ContentObserver::class);
     }
 }

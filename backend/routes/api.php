@@ -1,8 +1,13 @@
 <?php
 
+use App\Http\Controllers\Api\V1\AnnouncementController;
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\CategoryController;
+use App\Http\Controllers\Api\V1\HomeController;
+use App\Http\Controllers\Api\V1\LectureController;
 use App\Http\Controllers\Api\V1\LevelController;
 use App\Http\Controllers\Api\V1\ProfileController;
+use App\Http\Controllers\FileController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
@@ -16,5 +21,15 @@ Route::prefix('v1')->group(function () {
         Route::get('me', [ProfileController::class, 'show']);
         Route::put('me', [ProfileController::class, 'update']);
         Route::post('me/fcm-token', [ProfileController::class, 'fcmToken']);
+        Route::get('home', [HomeController::class, '__invoke']);
+        Route::get('categories', [CategoryController::class, 'index']);
+        Route::get('categories/{category}', [CategoryController::class, 'show'])->whereNumber('category');
+        Route::get('lectures/{lecture}', [LectureController::class, 'show'])->whereNumber('lecture');
+        Route::get('announcements', [AnnouncementController::class, '__invoke']);
     });
 });
+
+Route::get('files/{path}', [FileController::class, 'show'])
+    ->name('files.show')
+    ->where('path', '.*')
+    ->middleware('signed');
