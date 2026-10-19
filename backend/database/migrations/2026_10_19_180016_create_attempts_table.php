@@ -19,6 +19,8 @@ return new class extends Migration
             $table->decimal('score', 5, 2)->nullable();
             $table->decimal('max_score', 5, 2)->nullable();
             $table->timestamps();
+
+            $table->index(['assessment_id', 'user_id']);
         });
     }
 
