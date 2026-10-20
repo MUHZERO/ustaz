@@ -80,7 +80,7 @@ No password reset endpoint: the teacher resets it in the panel.
 | Method | Path | Body | Returns |
 |---|---|---|---|
 | POST | `/codes/redeem` | `code` | `{category: Category}` (now subscribed); 422 `code_*` |
-| GET | `/subscriptions` | — | `[{category: Category, starts_at, ends_at|null}]` |
+| GET | `/subscriptions` | — | `[{category: {id, name}, starts_at, ends_at|null}]` |
 
 ### Assessments (quiz segments, homework, exams — one engine)
 | Method | Path | Body | Returns |
