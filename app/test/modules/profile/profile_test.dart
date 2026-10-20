@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:ustaz/core/i18n/translations.dart';
 import 'package:ustaz/core/network/device_id_store.dart';
 import 'package:ustaz/core/network/token_store.dart';
+import 'package:ustaz/data/models/subscription.dart';
 import 'package:ustaz/data/repositories/access_repository.dart';
 import 'package:ustaz/data/repositories/auth_repository.dart';
 import 'package:ustaz/modules/profile/profile_controller.dart';
@@ -48,6 +49,16 @@ void main() {
     expect(Get.locale, const Locale('en'));
     expect(Directionality.of(tester.element(profile)), TextDirection.ltr);
     expect(find.text('Lifetime'), findsOneWidget);
+  });
+
+  test('subscriptions accept a category with only id and name', () {
+    final subscription = Subscription.fromJson({
+      'category': {'id': 3, 'name': 'Physics'},
+      'starts_at': '2026-10-01T10:00:00Z',
+      'ends_at': null,
+    });
+    expect(subscription.category.name, 'Physics');
+    expect(subscription.endsAt, isNull);
   });
 }
 
