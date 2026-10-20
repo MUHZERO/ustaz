@@ -11,6 +11,7 @@ class LectureCover extends StatelessWidget {
     this.number,
     this.imageUrl,
     this.compact = false,
+    this.showPlay = true,
     super.key,
   });
   final int seed;
@@ -19,6 +20,9 @@ class LectureCover extends StatelessWidget {
 
   /// Small list thumbnails drop the number label.
   final bool compact;
+
+  /// Off where the card has its own play or resume button.
+  final bool showPlay;
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
@@ -64,24 +68,25 @@ class LectureCover extends StatelessWidget {
                   ),
                 ),
               ),
-            Center(
-              child: Container(
-                width: compact ? 30 : 46,
-                height: compact ? 30 : 46,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: 0.92),
-                  boxShadow: const [
-                    BoxShadow(color: Color(0x33000000), blurRadius: 12),
-                  ],
-                ),
-                child: Icon(
-                  Icons.play_arrow_rounded,
-                  size: compact ? 20 : 30,
-                  color: AppGradients.base(seed),
+            if (showPlay)
+              Center(
+                child: Container(
+                  width: compact ? 30 : 46,
+                  height: compact ? 30 : 46,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white.withValues(alpha: 0.92),
+                    boxShadow: const [
+                      BoxShadow(color: Color(0x33000000), blurRadius: 12),
+                    ],
+                  ),
+                  child: Icon(
+                    Icons.play_arrow_rounded,
+                    size: compact ? 20 : 30,
+                    color: AppGradients.base(seed),
+                  ),
                 ),
               ),
-            ),
           ],
         ),
       );

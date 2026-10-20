@@ -126,7 +126,9 @@ class AppTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: isLight ? colors.surface : colors.surfaceContainerHigh,
+        fillColor: isLight
+            ? colors.surfaceContainer
+            : colors.surfaceContainerHigh,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.lg,
           vertical: AppSpacing.lg,
@@ -135,9 +137,9 @@ class AppTheme {
           borderRadius: field,
           borderSide: BorderSide.none,
         ),
-        enabledBorder: OutlineInputBorder(
+        enabledBorder: const OutlineInputBorder(
           borderRadius: field,
-          borderSide: BorderSide(color: colors.outlineVariant),
+          borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: field,

@@ -48,7 +48,7 @@ class LectureCardTile extends StatelessWidget {
                 AppSpacing.md,
                 AppSpacing.md,
               ),
-              child: _LectureMeta(lecture),
+              child: _LectureMeta(lecture, showNumber: false),
             ),
           ],
         ),
@@ -93,9 +93,16 @@ class LectureRow extends StatelessWidget {
 }
 
 class _LectureMeta extends StatelessWidget {
-  const _LectureMeta(this.lecture, {this.showFlag = false});
+  const _LectureMeta(
+    this.lecture, {
+    this.showFlag = false,
+    this.showNumber = true,
+  });
   final LectureCard lecture;
   final bool showFlag;
+
+  /// Off when the cover already shows the number.
+  final bool showNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -105,19 +112,20 @@ class _LectureMeta extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                'lecture.number'.trParams({'n': '${lecture.position}'}),
-                style: text.labelMedium?.copyWith(
-                  color: colors.onSurfaceVariant,
+        if (showNumber)
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  'lecture.number'.trParams({'n': '${lecture.position}'}),
+                  style: text.labelMedium?.copyWith(
+                    color: colors.onSurfaceVariant,
+                  ),
                 ),
               ),
-            ),
-            if (showFlag) _LectureFlag(lecture, onImage: false),
-          ],
-        ),
+              if (showFlag) _LectureFlag(lecture, onImage: false),
+            ],
+          ),
         Text(
           lecture.title,
           maxLines: 1,

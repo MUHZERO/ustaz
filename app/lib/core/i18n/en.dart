@@ -143,4 +143,5 @@ const en = <String, String>{
   'assessment.correct': 'Correct',
   'assessment.wrong': 'Wrong',
   'assessment.your_score': 'Your score',
+  'category.until': 'Until @date',
 };

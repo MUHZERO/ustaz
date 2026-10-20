@@ -28,6 +28,6 @@ void main() {
     expect(at(const Duration(minutes: 5)), '5 min ago');
     expect(at(const Duration(hours: 3)), '3 h ago');
     expect(at(const Duration(days: 2)), '2 d ago');
-    expect(at(const Duration(days: 9)), '2026-10-11');
+    expect(at(const Duration(days: 9)), '\u20662026-10-11\u2069');
   });
 }

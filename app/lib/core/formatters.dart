@@ -1,9 +1,10 @@
 import 'package:get/get.dart';
 
 abstract final class Formatters {
-  /// `yyyy-MM-dd` in local time; digits stay Latin in both languages.
+  /// `yyyy-MM-dd` in local time; digits stay Latin in both languages. The
+  /// left-to-right isolate keeps the parts in order inside Arabic text.
   static String date(DateTime value) =>
-      value.toLocal().toIso8601String().substring(0, 10);
+      '\u2066${value.toLocal().toIso8601String().substring(0, 10)}\u2069';
 
   /// "5 min ago" up to a week, then the date.
   static String relative(DateTime value, {DateTime? now}) {

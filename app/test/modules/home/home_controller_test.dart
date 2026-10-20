@@ -40,7 +40,7 @@ void main() {
     expect(find.text('Announcement'), findsOneWidget);
     expect(find.text('Continue'), findsOneWidget);
     expect(find.text('Category'), findsOneWidget);
-    expect(find.text('Free'), findsOneWidget);
+    expect(find.text('Free lecture'), findsOneWidget);
   });
 
   testWidgets('empty continue watching hides section', (tester) async {
@@ -122,7 +122,7 @@ Map<String, Object?> _homeJson({List<Object?>? continueWatching}) => {
       'papers_count': 0,
     },
   ],
-  'free': [_lecture('Free')],
+  'free': [_lecture('Free lecture')],
 };
 
 Map<String, Object?> _lecture(String title) => {

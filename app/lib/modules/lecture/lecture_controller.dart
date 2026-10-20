@@ -32,6 +32,39 @@ class LectureController extends BaseController {
   Future<void> load() =>
       run(() async => data.value = await _repository.lecture(lectureId));
 
+  /// A video watched to 90% or a passed quiz; null for PDFs, which are not
+  /// tracked.
+  static bool? isDone(Segment segment) => switch (segment.type) {
+    SegmentType.video => switch (segment.video) {
+      final video? =>
+        video.durationSeconds > 0 &&
+            video.lastPositionSeconds >= video.durationSeconds * 0.9,
+      null => false,
+    },
+    SegmentType.quiz =>
+      segment.passed == true ||
+          (segment.quiz?.bestPercent ?? -1) >= (segment.quiz?.passPercent ?? 0),
+    SegmentType.pdf => null,
+  };
+
+  /// Video time watched, 0 to 100: the same measure as the lecture cards'
+  /// `progress_percent`.
+  int get progressPercent {
+    final videos = (data.value?.segments ?? const <Segment>[])
+        .map((segment) => segment.video)
+        .whereType<SegmentVideo>()
+        .where((video) => video.durationSeconds > 0);
+    final total = videos.fold(0, (sum, video) => sum + video.durationSeconds);
+    if (total == 0) return 0;
+    final watched = videos.fold(
+      0,
+      (sum, video) =>
+          sum +
+          video.lastPositionSeconds.clamp(0, video.durationSeconds).toInt(),
+    );
+    return watched * 100 ~/ total;
+  }
+
   Future<void> open(Segment segment) async {
     if (segment.isLocked) {
       final gating = _segmentsBefore(segment).where(

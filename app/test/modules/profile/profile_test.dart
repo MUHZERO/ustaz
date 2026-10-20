@@ -34,7 +34,7 @@ void main() {
 
     expect(find.text('Physics'), findsOneWidget);
     expect(find.text('مدى الحياة'), findsOneWidget);
-    expect(find.text('ينتهي في 2027-06-30'), findsOneWidget);
+    expect(find.text('ينتهي في \u20662027-06-30\u2069'), findsOneWidget);
   });
 
   testWidgets('language toggle switches to ltr', (tester) async {

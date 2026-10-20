@@ -154,4 +154,5 @@ const ar = <String, String>{
   'assessment.correct': 'صحيحة',
   'assessment.wrong': 'خاطئة',
   'assessment.your_score': 'نتيجتك',
+  'category.until': 'حتى @date',
 };

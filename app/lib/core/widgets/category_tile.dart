@@ -66,7 +66,7 @@ class CategoryTile extends StatelessWidget {
                 const Spacer(),
                 Text(
                   category.name,
-                  maxLines: 2,
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: text.titleMedium?.copyWith(
                     color: Colors.white,
@@ -76,7 +76,7 @@ class CategoryTile extends StatelessWidget {
                 ),
                 Text(
                   categoryCounts(category),
-                  maxLines: 1,
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: text.bodySmall?.copyWith(
                     color: Colors.white.withValues(alpha: 0.85),
@@ -85,7 +85,11 @@ class CategoryTile extends StatelessWidget {
                 const SizedBox(height: AppSpacing.sm),
                 locked
                     ? _ActivateButton(category)
-                    : CategoryStatusBadge(category: category, onImage: true),
+                    : CategoryStatusBadge(
+                        category: category,
+                        onImage: true,
+                        compact: true,
+                      ),
               ],
             ),
           ),
@@ -100,10 +104,14 @@ class CategoryStatusBadge extends StatelessWidget {
   const CategoryStatusBadge({
     required this.category,
     this.onImage = false,
+    this.compact = false,
     super.key,
   });
   final Category category;
   final bool onImage;
+
+  /// "Until 2027-06-30" instead of "Subscribed until 2027-06-30", for small cards.
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
@@ -120,9 +128,9 @@ class CategoryStatusBadge extends StatelessWidget {
     return AppBadge(
       label: endsAt == null
           ? 'category.subscribed_lifetime'.tr
-          : 'category.subscribed_until'.trParams({
-              'date': Formatters.date(endsAt),
-            }),
+          : (compact ? 'category.until' : 'category.subscribed_until').trParams(
+              {'date': Formatters.date(endsAt)},
+            ),
       icon: Icons.verified_rounded,
       color: Theme.of(context).colorScheme.primary,
       onImage: onImage,
