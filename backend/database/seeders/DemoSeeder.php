@@ -201,7 +201,11 @@ class DemoSeeder extends Seeder
      */
     private function students(Level $level): Collection
     {
-        $students = User::factory()->student()->count(50)->has(Device::factory())->create(['level_id' => $level->id]);
+        $first = ['أحمد', 'محمد', 'يوسف', 'عمر', 'مريم', 'سارة', 'نور', 'خالد', 'ليلى', 'آدم'];
+        $last = ['حسن', 'إبراهيم', 'عبد الله', 'سليمان', 'مصطفى'];
+        $students = User::factory()->student()->count(50)->has(Device::factory())
+            ->sequence(fn ($sequence) => ['name' => $first[$sequence->index % 10].' '.$last[intdiv($sequence->index, 10)]])
+            ->create(['level_id' => $level->id]);
 
         $students->take(2)->each(fn (User $student) => $this->devices->bind($student, (string) Str::uuid()));
 
