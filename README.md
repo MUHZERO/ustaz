@@ -39,6 +39,12 @@ Five-minute local setup, demo accounts and production notes: [backend/README.md]
 
 Run it against the demo backend, rebrand it and enable push: [app/README.md](app/README.md).
 
+| Login | Home | Category | Lecture |
+|---|---|---|---|
+| ![Login](docs/screenshots/app-login.png) | ![Home](docs/screenshots/app-home.png) | ![Category](docs/screenshots/app-category.png) | ![Lecture](docs/screenshots/app-lecture.png) |
+| **Exam** | **Result** | **Profile** | **Home, dark mode** |
+| ![Exam](docs/screenshots/app-exam.png) | ![Result](docs/screenshots/app-result.png) | ![Profile](docs/screenshots/app-profile.png) | ![Home in dark mode](docs/screenshots/app-home-dark.png) |
+
 ## License
 
 [MIT](LICENSE) © 2026 Mohamed Nait Merri

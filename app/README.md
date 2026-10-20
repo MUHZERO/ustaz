@@ -40,13 +40,23 @@ Flutter 3.44 · Dart 3.12 · GetX · Android and iOS · Arabic (RTL, default) an
 
 This is protection, not DRM: see [Videos](#videos).
 
+**Design**
+
+- One design system in `lib/core/theme/` (colors, radii, spacing, light and dark themes); shared widgets in
+  `lib/core/widgets/`.
+- Arabic typeface: [Cairo](https://fonts.google.com/specimen/Cairo), bundled under the SIL Open Font License
+  (`assets/fonts/OFL.txt`).
+- Lectures without a thumbnail get a generated cover, picked from a fixed set of gradients by lecture id.
+
 ## Screenshots
 
-| Home | Lecture | Exam | Result |
-|---|---|---|---|
-| ![Home](../docs/screenshots/app-home.png) | ![Lecture](../docs/screenshots/app-lecture.png) | ![Exam](../docs/screenshots/app-exam.png) | ![Result](../docs/screenshots/app-result.png) |
+Taken on the Android emulator against the demo backend, in Arabic.
 
-_Screenshots are taken on a device against the demo backend and added once ready._
+| Login | Home | Category | Lecture |
+|---|---|---|---|
+| ![Login](../docs/screenshots/app-login.png) | ![Home](../docs/screenshots/app-home.png) | ![Category](../docs/screenshots/app-category.png) | ![Lecture](../docs/screenshots/app-lecture.png) |
+| **Exam** | **Result** | **Profile** | **Home, dark mode** |
+| ![Exam](../docs/screenshots/app-exam.png) | ![Result](../docs/screenshots/app-result.png) | ![Profile](../docs/screenshots/app-profile.png) | ![Home in dark mode](../docs/screenshots/app-home-dark.png) |
 
 ## Run
 
@@ -76,7 +86,7 @@ Every client-specific value lives in a handful of files:
 
 | What | Where |
 |---|---|
-| App name and brand colors | `lib/core/config/app_config.dart` (`appName`, `primaryColor`, `darkColor`) |
+| App name, brand colors and font | `lib/core/config/app_config.dart` (`appName`, `primaryColor`, `secondaryColor`, `lightBackground`, `darkBackground`, `fontFamily`) |
 | App bar title | `app_name` in `lib/core/i18n/ar.dart` and `lib/core/i18n/en.dart` |
 | Android application id | `namespace` and `applicationId` in `android/app/build.gradle.kts`, and the package of `android/app/src/main/kotlin/dev/muhdroid/ustaz/MainActivity.kt` (move the file to match) |
 | Android launcher name | `android:label` in `android/app/src/main/AndroidManifest.xml` |
