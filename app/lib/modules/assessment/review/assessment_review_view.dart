@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/base/state_view.dart';
+import '../../../core/theme/app_tokens.dart';
+import '../../../core/widgets/app_badge.dart';
 import '../../../core/widgets/question_card.dart';
 import 'assessment_review_controller.dart';
 
@@ -14,30 +16,75 @@ class AssessmentReviewView extends GetView<AssessmentReviewController> {
     body: StateView(
       controller: controller,
       onRetry: controller.load,
-      builder: (_) => Obx(
+      builder: (context) => Obx(
         () => ListView.separated(
-          padding: const EdgeInsets.symmetric(vertical: 16),
+          padding: const EdgeInsets.all(AppSpacing.lg),
           itemCount: controller.items.length,
-          separatorBuilder: (_, _) => const Divider(height: 32),
-          itemBuilder: (_, index) {
+          separatorBuilder: (_, _) => const SizedBox(height: AppSpacing.xl),
+          itemBuilder: (context, index) {
             final item = controller.items[index];
+            final colors = Theme.of(context).colorScheme;
+            final text = Theme.of(context).textTheme;
+            final (label, icon, color) = item.chosenOptionId == null
+                ? (
+                    'assessment.unanswered'.tr,
+                    Icons.remove_circle_outline,
+                    colors.onSurfaceVariant,
+                  )
+                : item.isCorrect
+                ? (
+                    'assessment.correct'.tr,
+                    Icons.check_circle,
+                    AppColors.success,
+                  )
+                : ('assessment.wrong'.tr, Icons.cancel, colors.error);
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'assessment.question_n'.trParams({'n': '${index + 1}'}),
+                        style: text.titleSmall?.copyWith(
+                          color: colors.onSurfaceVariant,
+                        ),
+                      ),
+                    ),
+                    AppBadge(label: label, icon: icon, color: color),
+                  ],
+                ),
+                const SizedBox(height: AppSpacing.sm),
                 QuestionCard(
                   question: item.question,
                   selectedOptionId: item.chosenOptionId,
                   correctOptionId: item.correctOptionId,
                 ),
-                if (item.chosenOptionId == null)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text('assessment.unanswered'.tr),
-                  ),
                 if (item.explanation != null)
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Text(item.explanation!),
+                  Container(
+                    padding: const EdgeInsets.all(AppSpacing.md),
+                    decoration: BoxDecoration(
+                      color: colors.secondaryContainer,
+                      borderRadius: BorderRadius.circular(AppRadii.md),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(
+                          Icons.lightbulb_outline_rounded,
+                          color: colors.onSecondaryContainer,
+                        ),
+                        const SizedBox(width: AppSpacing.sm),
+                        Expanded(
+                          child: Text(
+                            item.explanation!,
+                            style: text.bodyMedium?.copyWith(
+                              color: colors.onSecondaryContainer,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
               ],
             );

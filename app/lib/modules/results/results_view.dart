@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../core/theme/app_tokens.dart';
 import '../../core/widgets/paged_list.dart';
 import '../../core/widgets/result_tile.dart';
 import '../../data/models/result.dart';
@@ -15,11 +16,25 @@ class ResultsView extends GetView<ResultsController> {
     length: 2,
     child: Column(
       children: [
-        TabBar(
-          tabs: [
-            Tab(text: 'shell.results'.tr),
-            Tab(text: 'homework.title'.tr),
-          ],
+        Container(
+          height: 48,
+          margin: const EdgeInsets.fromLTRB(
+            AppSpacing.lg,
+            AppSpacing.xs,
+            AppSpacing.lg,
+            AppSpacing.sm,
+          ),
+          padding: const EdgeInsets.all(AppSpacing.xs),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surfaceContainerHigh,
+            borderRadius: BorderRadius.circular(AppRadii.md),
+          ),
+          child: TabBar(
+            tabs: [
+              Tab(text: 'shell.results'.tr),
+              Tab(text: 'homework.title'.tr),
+            ],
+          ),
         ),
         Expanded(
           child: TabBarView(
@@ -29,6 +44,7 @@ class ResultsView extends GetView<ResultsController> {
                 itemBuilder: (_, entry) => ResultTile(
                   title: entry.title,
                   subtitle: 'assessment.kind_${entry.kind.name}'.tr,
+                  icon: ResultTile.iconFor(entry.kind),
                   percent: entry.result.percent,
                   onTap: () => controller.open(entry),
                 ),

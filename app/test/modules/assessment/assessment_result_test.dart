@@ -46,6 +46,8 @@ void main() {
     expect(find.text('Request review'), findsOneWidget);
 
     await tester.enterText(find.byKey(const Key('review-note')), 'Q3 is right');
+    await tester.ensureVisible(find.text('Request review'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Request review'));
     await tester.pumpAndSettle();
 

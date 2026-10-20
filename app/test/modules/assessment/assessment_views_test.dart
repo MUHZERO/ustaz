@@ -88,6 +88,8 @@ void main() {
     await t.tap(find.text('O11'));
     await t.pumpAndSettle();
     expect(find.byIcon(Icons.radio_button_checked), findsOneWidget);
+    await t.tap(find.byKey(const Key('question-navigator')));
+    await t.pumpAndSettle();
     await t.tap(find.text('2'));
     await t.pumpAndSettle();
     expect(find.text('Q2'), findsOneWidget);

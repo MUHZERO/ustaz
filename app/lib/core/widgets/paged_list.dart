@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../base/paged_controller.dart';
 import '../base/state_view.dart';
+import '../theme/app_tokens.dart';
 
 /// Pull to refresh, and the next page loads when the list end comes into view.
 class PagedList<T> extends StatelessWidget {
@@ -23,6 +24,7 @@ class PagedList<T> extends StatelessWidget {
         final items = controller.items.toList();
         final hasMore = controller.hasMore;
         return ListView.builder(
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
           physics: const AlwaysScrollableScrollPhysics(),
           itemCount: items.length + (hasMore ? 1 : 0),
           itemBuilder: (context, index) => index < items.length

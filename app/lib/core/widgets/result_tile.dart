@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../data/models/attempt.dart';
 import '../theme/app_tokens.dart';
 import 'tinted_icon.dart';
 
@@ -17,6 +18,12 @@ class ResultTile extends StatelessWidget {
   final IconData icon;
   final num? percent;
   final VoidCallback? onTap;
+
+  static IconData iconFor(AssessmentKind kind) => switch (kind) {
+    AssessmentKind.quiz => Icons.quiz_outlined,
+    AssessmentKind.homework => Icons.edit_note_rounded,
+    AssessmentKind.exam => Icons.timer_outlined,
+  };
 
   @override
   Widget build(BuildContext context) {

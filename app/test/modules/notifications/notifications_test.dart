@@ -61,13 +61,13 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
-    expect(find.byIcon(Icons.notifications_active), findsOneWidget);
+    expect(find.byKey(const Key('unread-dot')), findsOneWidget);
 
     await tester.tap(find.text('New exam'));
     await tester.pumpAndSettle();
 
     expect(controller.items.single.isRead, isTrue);
-    expect(find.byIcon(Icons.notifications_none), findsOneWidget);
+    expect(find.byKey(const Key('unread-dot')), findsNothing);
     expect(
       requests.map((request) => '${request.method} ${request.url.path}'),
       contains('POST /notifications/abc/read'),

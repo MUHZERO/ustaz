@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../core/base/base_controller.dart';
+import '../../../core/theme/app_tokens.dart';
 import '../../../core/validators.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_text_field.dart';
@@ -14,8 +15,8 @@ class ProfileEditView extends GetView<ProfileEditController> {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(title: Text('profile.edit'.tr)),
     body: SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(AppSpacing.xl),
         child: Obx(
           () => Form(
             key: controller.formKey,
@@ -24,12 +25,15 @@ class ProfileEditView extends GetView<ProfileEditController> {
                 AppTextField(
                   controller: controller.name,
                   label: 'auth.name'.tr,
+                  icon: Icons.person_outline_rounded,
                   validator: Validators.required,
                   errorText: controller.fieldErrors['name'],
                 ),
+                const SizedBox(height: AppSpacing.md),
                 AppTextField(
                   controller: controller.parentPhone,
                   label: 'auth.parent_phone'.tr,
+                  icon: Icons.family_restroom_rounded,
                   validator: Validators.optionalPhone,
                   errorText: controller.fieldErrors['parent_phone'],
                   keyboardType: TextInputType.phone,
