@@ -70,6 +70,17 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  # Cairo (SIL Open Font License 1.1, see assets/fonts/OFL.txt): static
+  # instances of the google/fonts variable font.
+  fonts:
+    - family: Cairo
+      fonts:
+        - asset: assets/fonts/Cairo-Regular.ttf
+        - asset: assets/fonts/Cairo-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Cairo-Bold.ttf
+          weight: 700
+
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
