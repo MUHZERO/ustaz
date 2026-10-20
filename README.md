@@ -1,50 +1,57 @@
-# Ustaz
+<div dir="rtl">
 
-An open-source tutoring platform for **one private teacher**: a Flutter student app and a Laravel + Filament
-panel for the teacher. Arabic-first (RTL), English as a second language.
+# أستاذ (Ustaz)
 
-Students watch lectures, take gated quizzes and timed exams, and redeem activation codes. The teacher publishes
-content, sells access per monthly or term package, follows who watched what and who passed, and answers review
-requests — from one panel.
+**العربية** · [English](README.en.md)
 
-## Repository
+منصة دروس خصوصية مفتوحة المصدر **لأستاذ واحد**: تطبيق للطلاب على أندرويد و iOS بـ Flutter، ولوحة تحكم للأستاذ بـ Laravel و Filament. العربية هي اللغة الأساسية (من اليمين إلى اليسار)، والإنجليزية لغة ثانية.
 
-| Path | What |
+يشاهد الطالب المحاضرات، ويحل اختبارات قصيرة تفتح له ما بعدها، وامتحانات محددة بوقت، ويفعّل اشتراكه بأكواد. والأستاذ ينشر المحتوى، ويبيع الاشتراك بالشهر أو بالترم، ويتابع من شاهد ومن نجح، ويرد على طلبات مراجعة الدرجات، كل ذلك من لوحة واحدة.
+
+## لمن هذا المشروع؟
+
+- **الأستاذ الذي يدرّس أونلاين** ويريد تطبيقًا باسمه بدل مجموعات واتساب وروابط يوتيوب مكشوفة.
+- **المراكز التعليمية الصغيرة** التي تحتاج اشتراكات وأكواد تفعيل وتقارير مشاهدة.
+- **المطورون** الذين يريدون مثالًا كاملًا لمشروع Laravel + Flutter منظم ومختبَر.
+
+## محتوى المستودع
+
+| المجلد | المحتوى |
 |---|---|
-| [`backend/`](backend) | Laravel 13 API and Filament 5 teacher panel |
-| [`app/`](app) | Flutter student app |
-| [`docs/`](docs) | Design spec, implementation plans and the [API contract](docs/api-contract.md) shared by both sides |
+| [`backend/`](backend) | الواجهة البرمجية بـ Laravel 13 ولوحة الأستاذ بـ Filament 5 |
+| [`app/`](app) | تطبيق الطالب بـ Flutter |
+| [`docs/`](docs) | وثيقة التصميم وخطط التنفيذ و[عقد الواجهة البرمجية](docs/api-contract.md) المشترك بين الطرفين |
 
-## Backend
+## لوحة الأستاذ (الخادم)
 
-- Filament panel for content, question bank, exams, students, activation codes, review requests,
-  analytics and push notifications, with teacher and assistant roles.
-- Sanctum token API with one bound device per student, subscription and gating-quiz locks, server-side exam
-  deadlines and automatic re-scoring when a correct answer changes.
-- Tagged cache on every hot read, queued jobs for slow work, and Redis or plain database drivers chosen in
-  `.env` — it runs on a VPS or on cheap shared hosting.
-- Pest test suite, including a load smoke test on the demo data.
+- لوحة Filament لإدارة المحتوى، وبنك الأسئلة، والامتحانات، والطلاب، وأكواد التفعيل، وطلبات المراجعة، والتقارير، والإشعارات، مع صلاحيات للأستاذ وللمساعد.
+- واجهة برمجية بـ Sanctum: جهاز واحد لكل طالب، وقفل المحتوى حسب الاشتراك أو النجاح في الاختبار السابق، ووقت الامتحان يحسبه الخادم، وإعادة تصحيح تلقائية لكل المحاولات عند تعديل الإجابة الصحيحة.
+- تخزين مؤقت على كل قراءة متكررة، ومهام في الخلفية للعمليات الثقيلة، و Redis أو قاعدة البيانات حسب الإعداد في `.env`. يعمل على VPS أو على استضافة مشتركة بسيطة.
+- اختبارات Pest، منها اختبار حِمل على البيانات التجريبية.
 
-Five-minute local setup, demo accounts and production notes: [backend/README.md](backend/README.md).
+التشغيل المحلي في خمس دقائق، وحسابات التجربة، وملاحظات النشر: [backend/README.md](backend/README.md) (بالإنجليزية).
 
-## App
+## تطبيق الطالب
 
-- Flutter and GetX, Android and iOS, Arabic (RTL) and English; every screen shares the same loading, empty
-  and error states.
-- Gated lectures with video, PDF and quiz segments; timed exams that follow the server deadline, keep answers
-  through network drops and resume after the app is killed.
-- Content protection: one device per student, `FLAG_SECURE` on Android, video paused while the iOS screen is
-  recorded, and a moving watermark with the student's name and phone.
-- Rebranded for a teacher from one config file and the platform ids; Firebase push is optional.
+- Flutter و GetX، على أندرويد و iOS، بالعربية والإنجليزية، مع الوضع الليلي. كل الشاشات تشترك في نفس حالات التحميل والفراغ والخطأ.
+- محاضرات مقسمة إلى فيديو و PDF واختبار، وامتحانات تتبع وقت الخادم، وتحفظ الإجابات عند انقطاع الإنترنت، وتكمل من حيث توقفت إذا أُغلق التطبيق.
+- حماية المحتوى: جهاز واحد لكل طالب، ومنع تصوير الشاشة على أندرويد، وإيقاف الفيديو عند تسجيل شاشة iPhone، وعلامة مائية متحركة باسم الطالب ورقمه.
+- يتغير اسمه وألوانه لأي أستاذ من ملف إعدادات واحد. الإشعارات عبر Firebase اختيارية.
 
-Run it against the demo backend, rebrand it and enable push: [app/README.md](app/README.md).
+التشغيل مع الخادم التجريبي، وتغيير الهوية، وتفعيل الإشعارات: [app/README.md](app/README.md) (بالإنجليزية).
 
-| Login | Home | Category | Lecture |
+| تسجيل الدخول | الرئيسية | التصنيف | المحاضرة |
 |---|---|---|---|
-| ![Login](docs/screenshots/app-login.png) | ![Home](docs/screenshots/app-home.png) | ![Category](docs/screenshots/app-category.png) | ![Lecture](docs/screenshots/app-lecture.png) |
-| **Exam** | **Result** | **Profile** | **Home, dark mode** |
-| ![Exam](docs/screenshots/app-exam.png) | ![Result](docs/screenshots/app-result.png) | ![Profile](docs/screenshots/app-profile.png) | ![Home in dark mode](docs/screenshots/app-home-dark.png) |
+| ![تسجيل الدخول](docs/screenshots/app-login.png) | ![الرئيسية](docs/screenshots/app-home.png) | ![التصنيف](docs/screenshots/app-category.png) | ![المحاضرة](docs/screenshots/app-lecture.png) |
+| **الامتحان** | **النتيجة** | **الملف الشخصي** | **الرئيسية، الوضع الليلي** |
+| ![الامتحان](docs/screenshots/app-exam.png) | ![النتيجة](docs/screenshots/app-result.png) | ![الملف الشخصي](docs/screenshots/app-profile.png) | ![الرئيسية في الوضع الليلي](docs/screenshots/app-home-dark.png) |
 
-## License
+## تريد نسخة لك أو لمركزك؟
+
+أستطيع تجهيز المنصة باسمك وألوانك، ورفعها على استضافتك، ونشر التطبيق على المتاجر، وإضافة ما تحتاجه من ميزات. تواصل معي عبر [muhdroid.com](https://muhdroid.com).
+
+## الرخصة
 
 [MIT](LICENSE) © 2026 Mohamed Nait Merri
+
+</div>
