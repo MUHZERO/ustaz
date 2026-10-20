@@ -87,7 +87,7 @@ class AssessmentPlayerView extends GetView<AssessmentPlayerController> {
                     isSelected: flagged,
                     style: IconButton.styleFrom(
                       foregroundColor: flagged
-                          ? AppColors.warning
+                          ? AppColors.warning(context)
                           : colors.onSurfaceVariant,
                       backgroundColor: flagged
                           ? colors.secondaryContainer
@@ -197,7 +197,7 @@ class _TimerChip extends StatelessWidget {
     final color = left < const Duration(minutes: 1)
         ? colors.error
         : left < const Duration(minutes: 5)
-        ? AppColors.warning
+        ? AppColors.warning(context)
         : colors.primary;
     final seconds = (left.inSeconds % 60).toString().padLeft(2, '0');
     return Container(

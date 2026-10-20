@@ -199,7 +199,7 @@ class _SegmentStep extends StatelessWidget {
     final (typeIcon, typeColor) = switch (segment.type) {
       SegmentType.video => (Icons.play_circle_rounded, colors.primary),
       SegmentType.pdf => (Icons.picture_as_pdf_rounded, colors.error),
-      SegmentType.quiz => (Icons.quiz_rounded, AppColors.warning),
+      SegmentType.quiz => (Icons.quiz_rounded, AppColors.warning(context)),
     };
     final video = segment.video;
     final highlight = gating && !done && !segment.isLocked;
@@ -275,7 +275,7 @@ class _SegmentStep extends StatelessWidget {
                                   AppBadge(
                                     label: 'lecture.gating'.tr,
                                     icon: Icons.flag_rounded,
-                                    color: AppColors.warning,
+                                    color: AppColors.warning(context),
                                   ),
                               ],
                             ),

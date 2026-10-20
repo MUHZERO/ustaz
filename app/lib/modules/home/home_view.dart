@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import '../../core/base/state_view.dart';
+import '../../core/config/app_config.dart';
 import '../../core/routes/app_routes.dart';
 import '../../core/theme/app_tokens.dart';
 import '../../core/widgets/category_tile.dart';
@@ -126,7 +127,7 @@ class HomeView extends GetView<HomeController> {
               left: 0,
               right: 0,
               height: MediaQuery.paddingOf(context).top,
-              child: ColoredBox(color: Theme.of(context).colorScheme.primary),
+              child: const ColoredBox(color: AppConfig.primaryColor),
             ),
           ],
         );
@@ -148,7 +149,6 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
     return Container(
       padding: EdgeInsets.fromLTRB(
@@ -158,14 +158,7 @@ class _Header extends StatelessWidget {
         AppSpacing.xl,
       ),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: AlignmentDirectional.topStart,
-          end: AlignmentDirectional.bottomEnd,
-          colors: [
-            colors.primary,
-            Color.lerp(colors.primary, const Color(0xFF7C3AED), 0.6)!,
-          ],
-        ),
+        gradient: AppGradients.brand,
         borderRadius: const BorderRadius.vertical(
           bottom: Radius.circular(AppRadii.xl),
         ),

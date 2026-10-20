@@ -29,7 +29,9 @@ class ResultTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
-    final grade = percent == null ? null : AppColors.forPercent(percent!);
+    final grade = percent == null
+        ? null
+        : AppColors.forPercent(context, percent!);
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.lg,

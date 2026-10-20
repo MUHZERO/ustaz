@@ -27,6 +27,14 @@ class StateView extends StatelessWidget {
           action: onRetry == null
               ? null
               : FilledButton.tonalIcon(
+                  style: FilledButton.styleFrom(
+                    backgroundColor: Theme.of(
+                      context,
+                    ).colorScheme.primaryContainer,
+                    foregroundColor: Theme.of(
+                      context,
+                    ).colorScheme.onPrimaryContainer,
+                  ),
                   onPressed: () => onRetry!(),
                   icon: const Icon(Icons.refresh_rounded),
                   label: Text('retry'.tr),

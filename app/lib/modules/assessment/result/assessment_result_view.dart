@@ -62,7 +62,7 @@ class _ScoreCard extends StatelessWidget {
     final color = switch (passed) {
       true => AppColors.success,
       false => colors.error,
-      null => AppColors.forPercent(result.percent),
+      null => AppColors.forPercent(context, result.percent),
     };
     return Card(
       child: Padding(
@@ -136,7 +136,7 @@ class _ReviewStatus extends StatelessWidget {
     final (icon, color) = switch (request.status) {
       ReviewRequestStatus.pending => (
         Icons.hourglass_top_rounded,
-        AppColors.warning,
+        AppColors.warning(context),
       ),
       ReviewRequestStatus.accepted => (
         Icons.check_circle_rounded,

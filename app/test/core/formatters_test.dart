@@ -6,7 +6,10 @@ import 'package:ustaz/core/i18n/plural.dart';
 import 'package:ustaz/core/i18n/translations.dart';
 
 void main() {
-  setUp(() => Get.addTranslations(AppTranslations().keys));
+  setUp(() {
+    Get.addTranslations(AppTranslations().keys);
+    Get.fallbackLocale = const Locale('ar');
+  });
 
   test('plural picks the Arabic form and falls back to other', () {
     Get.locale = const Locale('ar');

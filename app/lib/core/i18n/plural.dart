@@ -12,8 +12,15 @@ extension Plural on String {
       >= 3 && <= 10 => 'few',
       _ => 'other',
     };
-    var key = '$this.$form';
-    if (key.tr == key) key = '$this.other';
+    final locale = Get.locale;
+    final keys =
+        Get.translations['$locale'] ??
+        Get.translations[locale?.languageCode] ??
+        const <String, String>{};
+    // Checked against the current language only: `.tr` would fall back to
+    // the Arabic form.
+    final exact = '$this.$form';
+    final key = keys.containsKey(exact) ? exact : '$this.other';
     return key.trParams({'n': '$n'});
   }
 }

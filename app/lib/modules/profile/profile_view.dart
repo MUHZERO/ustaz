@@ -64,7 +64,7 @@ class ProfileView extends GetView<ProfileController> {
                   ),
                   leading: TintedIcon(
                     icon: Icons.vpn_key_rounded,
-                    color: AppColors.warning,
+                    color: AppColors.warning(context),
                     size: 40,
                   ),
                   title: Text('category.redeem'.tr),
@@ -171,20 +171,12 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
     final muted = Colors.white.withValues(alpha: 0.85);
     return Container(
       padding: const EdgeInsets.all(AppSpacing.lg + 4),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: AlignmentDirectional.topStart,
-          end: AlignmentDirectional.bottomEnd,
-          colors: [
-            colors.primary,
-            Color.lerp(colors.primary, const Color(0xFF7C3AED), 0.6)!,
-          ],
-        ),
+        gradient: AppGradients.brand,
         borderRadius: BorderRadius.circular(AppRadii.lg),
       ),
       child: Row(

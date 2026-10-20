@@ -237,7 +237,7 @@ class _ExamCardTile extends StatelessWidget {
               else if (percent != null)
                 AppBadge(
                   label: '$percent%',
-                  color: AppColors.forPercent(percent),
+                  color: AppColors.forPercent(context, percent),
                 )
               else
                 AppBadge(

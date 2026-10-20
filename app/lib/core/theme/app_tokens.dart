@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../config/app_config.dart';
 
 /// Corner radii shared by every surface.
 abstract final class AppRadii {
@@ -21,14 +22,20 @@ abstract final class AppSpacing {
 /// Semantic colors that do not change with the brand.
 abstract final class AppColors {
   static const success = Color(0xFF16A34A);
-  static const warning = Color(0xFFB45309);
   static const error = Color(0xFFDC2626);
 
+  /// Amber dark enough to read on white, light enough to read on the dark
+  /// background.
+  static Color warning(BuildContext context) =>
+      Theme.of(context).brightness == Brightness.dark
+      ? const Color(0xFFFBBF24)
+      : const Color(0xFFB45309);
+
   /// Green from 85%, amber from 50%, red below.
-  static Color forPercent(num percent) => percent >= 85
+  static Color forPercent(BuildContext context, num percent) => percent >= 85
       ? success
       : percent >= 50
-      ? warning
+      ? warning(context)
       : error;
 }
 
@@ -52,6 +59,16 @@ abstract final class AppGradients {
       colors: [start, end],
     );
   }
+
+  /// The brand color into violet, for headers; the same in light and dark.
+  static final brand = LinearGradient(
+    begin: AlignmentDirectional.topStart,
+    end: AlignmentDirectional.bottomEnd,
+    colors: [
+      AppConfig.primaryColor,
+      Color.lerp(AppConfig.primaryColor, const Color(0xFF7C3AED), 0.6)!,
+    ],
+  );
 
   /// The gradient's first color, for tints that match the card.
   static Color base(int seed) => _pairs[seed.abs() % _pairs.length].$1;

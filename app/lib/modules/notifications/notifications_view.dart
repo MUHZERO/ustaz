@@ -48,7 +48,8 @@ class _NotificationCard extends StatelessWidget {
     final (icon, color) = switch (item.data['route']) {
       'lecture' => (Icons.play_circle_rounded, colors.primary),
       'category' => (Icons.menu_book_rounded, AppColors.success),
-      'result' || 'results' => (Icons.insights_rounded, AppColors.warning),
+      'result' ||
+      'results' => (Icons.insights_rounded, AppColors.warning(context)),
       _ => (Icons.notifications_rounded, colors.primary),
     };
     return Card(
