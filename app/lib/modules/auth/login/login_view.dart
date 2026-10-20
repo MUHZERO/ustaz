@@ -11,40 +11,38 @@ class LoginView extends GetView<LoginController> {
   const LoginView({super.key});
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: SafeArea(
-      child: Obx(
-        () => Form(
-          key: controller.formKey,
-          child: AuthLayout(
-            title: 'auth.welcome_title'.tr,
-            subtitle: 'auth.welcome_body'.tr,
-            fields: [
-              AppTextField(
-                controller: controller.phone,
-                label: 'auth.phone'.tr,
-                icon: Icons.phone_iphone_rounded,
-                validator: Validators.phone,
-                errorText: controller.fieldErrors['phone'],
-                keyboardType: TextInputType.phone,
-              ),
-              AppTextField(
-                controller: controller.password,
-                label: 'auth.password'.tr,
-                icon: Icons.lock_outline_rounded,
-                validator: Validators.password,
-                errorText: controller.fieldErrors['password'],
-                obscureText: true,
-              ),
-            ],
-            actions: [
-              AppButton(label: 'auth.login'.tr, onPressed: controller.login),
-              AuthSwitchLink(
-                question: 'auth.no_account'.tr,
-                action: 'auth.register'.tr,
-                onPressed: () => Get.toNamed(AppRoutes.register),
-              ),
-            ],
-          ),
+    body: Obx(
+      () => Form(
+        key: controller.formKey,
+        child: AuthLayout(
+          title: 'auth.welcome_title'.tr,
+          subtitle: 'auth.welcome_body'.tr,
+          fields: [
+            AppTextField(
+              controller: controller.phone,
+              label: 'auth.phone'.tr,
+              icon: Icons.phone_iphone_rounded,
+              validator: Validators.phone,
+              errorText: controller.fieldErrors['phone'],
+              keyboardType: TextInputType.phone,
+            ),
+            AppTextField(
+              controller: controller.password,
+              label: 'auth.password'.tr,
+              icon: Icons.lock_outline_rounded,
+              validator: Validators.password,
+              errorText: controller.fieldErrors['password'],
+              obscureText: true,
+            ),
+          ],
+          actions: [
+            AppButton(label: 'auth.login'.tr, onPressed: controller.login),
+            AuthSwitchLink(
+              question: 'auth.no_account'.tr,
+              action: 'auth.register'.tr,
+              onPressed: () => Get.toNamed(AppRoutes.register),
+            ),
+          ],
         ),
       ),
     ),

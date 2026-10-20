@@ -23,6 +23,7 @@ class UstazApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => GetMaterialApp(
     title: AppConfig.appName,
+    debugShowCheckedModeBanner: false,
     translations: AppTranslations(),
     locale: Get.find<SettingsService>().locale,
     fallbackLocale: const Locale('ar'),

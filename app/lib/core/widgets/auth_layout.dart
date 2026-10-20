@@ -28,35 +28,37 @@ class AuthLayout extends StatelessWidget {
         ],
       ),
     ),
-    child: LayoutBuilder(
-      builder: (context, box) => SingleChildScrollView(
-        padding: const EdgeInsets.all(AppSpacing.xl),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            minHeight: box.maxHeight - AppSpacing.xl * 2,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              BrandHeader(title: title, subtitle: subtitle),
-              const SizedBox(height: AppSpacing.xl),
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(AppSpacing.lg + 4),
-                  child: Column(
-                    children: [
-                      for (final (index, field) in fields.indexed) ...[
-                        if (index > 0) const SizedBox(height: AppSpacing.md),
-                        field,
+    child: SafeArea(
+      child: LayoutBuilder(
+        builder: (context, box) => SingleChildScrollView(
+          padding: const EdgeInsets.all(AppSpacing.xl),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: box.maxHeight - AppSpacing.xl * 2,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                BrandHeader(title: title, subtitle: subtitle),
+                const SizedBox(height: AppSpacing.xl),
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(AppSpacing.lg + 4),
+                    child: Column(
+                      children: [
+                        for (final (index, field) in fields.indexed) ...[
+                          if (index > 0) const SizedBox(height: AppSpacing.md),
+                          field,
+                        ],
                       ],
-                    ],
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: AppSpacing.xl),
-              ...actions,
-            ],
+                const SizedBox(height: AppSpacing.xl),
+                ...actions,
+              ],
+            ),
           ),
         ),
       ),

@@ -179,6 +179,10 @@ class AssessmentPlayerView extends GetView<AssessmentPlayerController> {
     middleText: 'assessment.submit_confirm'.tr,
     textConfirm: 'assessment.submit'.tr,
     textCancel: 'cancel'.tr,
+    radius: AppRadii.lg,
+    buttonColor: Get.theme.colorScheme.primary,
+    confirmTextColor: Get.theme.colorScheme.onPrimary,
+    cancelTextColor: Get.theme.colorScheme.primary,
     onConfirm: () {
       Get.back<void>();
       controller.submit();
