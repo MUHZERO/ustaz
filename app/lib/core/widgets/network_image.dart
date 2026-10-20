@@ -5,24 +5,27 @@ class NetworkImageView extends StatelessWidget {
   const NetworkImageView({
     required this.url,
     this.fit = BoxFit.cover,
+    this.placeholder,
     super.key,
   });
 
   final String? url;
   final BoxFit fit;
 
+  /// Shown while loading, on error and without a URL; a plain tint by default.
+  final Widget? placeholder;
+
   @override
   Widget build(BuildContext context) {
-    final placeholder = ColoredBox(
-      color: Theme.of(context).colorScheme.surfaceContainerHighest,
-      child: const Center(child: Icon(Icons.image_outlined)),
-    );
-    if (url == null || url!.isEmpty) return placeholder;
+    final fallback =
+        placeholder ??
+        ColoredBox(color: Theme.of(context).colorScheme.surfaceContainerHigh);
+    if (url == null || url!.isEmpty) return fallback;
     return CachedNetworkImage(
       imageUrl: url!,
       fit: fit,
-      placeholder: (_, _) => placeholder,
-      errorWidget: (_, _, _) => placeholder,
+      placeholder: (_, _) => fallback,
+      errorWidget: (_, _, _) => fallback,
     );
   }
 }

@@ -21,7 +21,7 @@ abstract final class AppSpacing {
 /// Semantic colors that do not change with the brand.
 abstract final class AppColors {
   static const success = Color(0xFF16A34A);
-  static const warning = Color(0xFFF59E0B);
+  static const warning = Color(0xFFB45309);
   static const error = Color(0xFFDC2626);
 
   /// Green from 85%, amber from 50%, red below.

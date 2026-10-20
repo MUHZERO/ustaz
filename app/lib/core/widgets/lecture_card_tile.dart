@@ -1,54 +1,161 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../../data/models/lecture_card.dart';
+import '../theme/app_tokens.dart';
+import 'app_badge.dart';
+import 'lecture_cover.dart';
 import 'locked_badge.dart';
-import 'network_image.dart';
 import 'progress_bar.dart';
 
+/// A lecture in a horizontal row: cover on top, title and progress below.
 class LectureCardTile extends StatelessWidget {
   const LectureCardTile({required this.lecture, this.onTap, super.key});
   final LectureCard lecture;
   final VoidCallback? onTap;
 
   @override
-  Widget build(BuildContext context) => Card(
-    clipBehavior: Clip.antiAlias,
-    child: InkWell(
-      onTap: onTap,
-      child: SizedBox(
-        width: 220,
+  Widget build(BuildContext context) => SizedBox(
+    width: 230,
+    child: Card(
+      child: InkWell(
+        onTap: onTap,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 110,
+              height: 124,
               width: double.infinity,
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  NetworkImageView(url: lecture.thumbnailUrl),
-                  if (lecture.isLocked)
-                    const Align(
-                      alignment: Alignment.center,
-                      child: LockedBadge(),
-                    ),
+                  LectureCover(
+                    seed: lecture.id,
+                    number: lecture.position,
+                    imageUrl: lecture.thumbnailUrl,
+                  ),
+                  PositionedDirectional(
+                    end: AppSpacing.sm,
+                    top: AppSpacing.sm,
+                    child: _LectureFlag(lecture),
+                  ),
                 ],
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(12),
-              child: Text(
-                lecture.title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.md,
+                AppSpacing.sm,
+                AppSpacing.md,
+                AppSpacing.md,
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
-              child: ProgressBar(percent: lecture.progressPercent),
+              child: _LectureMeta(lecture),
             ),
           ],
         ),
       ),
     ),
   );
+}
+
+/// A lecture in a vertical list: small cover beside the title.
+class LectureRow extends StatelessWidget {
+  const LectureRow({required this.lecture, this.onTap, super.key});
+  final LectureCard lecture;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) => Card(
+    child: InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpacing.md),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(AppRadii.md),
+              child: SizedBox(
+                width: 104,
+                height: 68,
+                child: LectureCover(
+                  seed: lecture.id,
+                  imageUrl: lecture.thumbnailUrl,
+                  compact: true,
+                ),
+              ),
+            ),
+            const SizedBox(width: AppSpacing.md),
+            Expanded(child: _LectureMeta(lecture, showFlag: true)),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+class _LectureMeta extends StatelessWidget {
+  const _LectureMeta(this.lecture, {this.showFlag = false});
+  final LectureCard lecture;
+  final bool showFlag;
+
+  @override
+  Widget build(BuildContext context) {
+    final text = Theme.of(context).textTheme;
+    final colors = Theme.of(context).colorScheme;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                'lecture.number'.trParams({'n': '${lecture.position}'}),
+                style: text.labelMedium?.copyWith(
+                  color: colors.onSurfaceVariant,
+                ),
+              ),
+            ),
+            if (showFlag) _LectureFlag(lecture, onImage: false),
+          ],
+        ),
+        Text(
+          lecture.title,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: text.titleSmall,
+        ),
+        const SizedBox(height: AppSpacing.sm),
+        Row(
+          children: [
+            Expanded(child: ProgressBar(percent: lecture.progressPercent)),
+            const SizedBox(width: AppSpacing.sm),
+            Text(
+              '${lecture.progressPercent.round()}%',
+              style: text.labelMedium?.copyWith(color: colors.onSurfaceVariant),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+/// Locked beats free; nothing for an ordinary open lecture.
+class _LectureFlag extends StatelessWidget {
+  const _LectureFlag(this.lecture, {this.onImage = true});
+  final LectureCard lecture;
+  final bool onImage;
+
+  @override
+  Widget build(BuildContext context) {
+    if (lecture.isLocked) return LockedBadge(onImage: onImage);
+    if (lecture.isFree) {
+      return AppBadge(
+        label: 'category.free'.tr,
+        color: AppColors.success,
+        onImage: onImage,
+      );
+    }
+    return const SizedBox.shrink();
+  }
 }

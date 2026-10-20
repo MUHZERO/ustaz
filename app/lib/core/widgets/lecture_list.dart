@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../data/models/lecture_card.dart';
 import '../routes/app_routes.dart';
+import '../theme/app_tokens.dart';
 import 'lecture_card_tile.dart';
 
 /// A horizontal row of lecture cards; a tap opens the lecture.
@@ -11,12 +12,17 @@ class LectureList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-    height: 205,
+    height: 232,
     child: ListView.separated(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.lg,
+        AppSpacing.xs,
+        AppSpacing.lg,
+        AppSpacing.md,
+      ),
       scrollDirection: Axis.horizontal,
       itemCount: lectures.length,
-      separatorBuilder: (_, _) => const SizedBox(width: 12),
+      separatorBuilder: (_, _) => const SizedBox(width: AppSpacing.md),
       itemBuilder: (_, index) => LectureCardTile(
         lecture: lectures[index],
         onTap: () =>

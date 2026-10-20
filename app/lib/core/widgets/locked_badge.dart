@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'app_badge.dart';
 
 class LockedBadge extends StatelessWidget {
-  const LockedBadge({super.key});
+  const LockedBadge({this.onImage = false, super.key});
+  final bool onImage;
 
   @override
-  Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-    decoration: BoxDecoration(
-      color: Colors.black54,
-      borderRadius: BorderRadius.circular(12),
-    ),
-    child: Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const Icon(Icons.lock_outline, color: Colors.white, size: 14),
-        const SizedBox(width: 4),
-        Text('home.locked'.tr, style: const TextStyle(color: Colors.white)),
-      ],
-    ),
+  Widget build(BuildContext context) => AppBadge(
+    label: 'home.locked'.tr,
+    icon: Icons.lock_outline,
+    color: Theme.of(context).colorScheme.onSurfaceVariant,
+    onImage: onImage,
   );
 }
